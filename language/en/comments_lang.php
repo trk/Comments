@@ -1,17 +1,29 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Comments module Language file
-|
-| Language : 	English
-| Tranlsator : 	Victor Efremov (aka XTRO)
-|
-| Notes : Modules translation items should begin with the prefix 'module_name'
-|		  where 'module_name' is the name of the module
-|
-|--------------------------------------------------------------------------
-*/
+/**
+ * Admin Panel Translations
+ */
+
+//=> Panel Çevirileri
+$lang['module_comments_title']                  = 'Comment Module';
+$lang['module_comments_about']                  = 'Manage your comments';
+
+//=> Başlık Çevirileri
+$lang['module_comments_title_settings']         = 'Settings';
+$lang['module_comments_title_root']             = 'Root';
+
+//=> Hakkında Çevirileri
+$lang['module_comments_about_setting']          = 'You can manage module setting from this section';
+
+//=> Tuş Çevirileri
+$lang['module_comments_button_root']            = 'Root';
+$lang['module_comments_button_settings']        = 'Settings';
+
+//=> Etiket Çevirileri
+$lang['module_comments_label_allow_comments']   = 'Allow Comments';
+
+//=> Yardım Çevirileri
+$lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';
 
 $lang['module_comments_title'] 					= 'Comments module';
 $lang['module_comments_about'] 					= 'Manage comments';
