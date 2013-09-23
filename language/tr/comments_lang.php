@@ -41,9 +41,13 @@ $lang['module_comments_help_if_checked_comments_will_allowed']  = 'Eğer işaret
 $lang['module_comments_help_click_here_for_manage_comments']    = 'Yorumları yönetmek için buraya tıklayın.';
 $lang['module_comments_help_click_here_for_go_back_to_article'] = 'Makaleye geri dönmek için burayı tıklayın.';
 
-//=>
-$lang['module_comments_notification_cant_get_article_id']   = 'Makale ID sine erişilemiyor...';
-
+//=> Bildiri Çevirileri
+$lang['module_comments_notification_cant_get_article_id']       = 'Makale ID sine erişilemiyor...';
+$lang['module_comments_notification_comment_status_changed']    = 'Yorumun durumu başarıyla değiştirildi...';
+$lang['module_comments_notification_comment_status_nchanged']   = 'Yorumun durumu değiştirilemedi!';
+$lang['module_comments_notification_comment_deleted']           = 'Yorum başarıyla silindi...';
+$lang['module_comments_notification_comment_ndeleted']          = 'Yorum silinemedi...';
+$lang['module_comments_notification_delete_question']           = 'Seçili olan yorumu silmek istediğinizden eminmisiniz?';
 
 
 $lang['module_comments_settings_title']			= 'Ayarlar';

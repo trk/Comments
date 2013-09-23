@@ -40,6 +40,30 @@ class Comments_model extends Base_model
 
         return $count;
     }
+
+    /**
+     * Set an item online / offline depending on its current status
+     *
+     * @param	int			item ID
+     *
+     * @return 	boolean		New status
+     *
+     */
+    public function switch_status($id)
+    {
+        // Current status
+        $status = $this->get_row($id)->status;
+
+        // New status
+        ($status == 1) ? $status = 0 : $status = 1;
+
+        // Save
+        $this->{$this->db_group}->where($this->pk_name, $id);
+        $this->{$this->db_group}->set('status', $status);
+        $this->{$this->db_group}->update($this->table);
+
+        return $status;
+    }
 }
 
 /* End of file comments_model.php */

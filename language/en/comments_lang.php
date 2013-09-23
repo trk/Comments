@@ -4,11 +4,11 @@
  * Admin Panel Translations
  */
 
-//=> Panel Çevirileri
+//=> Panel Translations
 $lang['module_comments_title']                  = 'Comment Module';
 $lang['module_comments_about']                  = 'Manage your comments';
 
-//=> Başlık Çevirileri
+//=> Title Translations
 $lang['module_comments_title_settings']         = 'Settings';
 $lang['module_comments_title_root']             = 'Root';
 $lang['module_comments_title_comments_for_selected_article']    = 'Comments For Article - %s';
@@ -24,7 +24,7 @@ $lang['module_comments_title_published']            = 'Published';
 $lang['module_comments_title_pending']              = 'Pending';
 $lang['module_comments_title_total']                = 'Total';
 
-//=> Hakkında Çevirileri
+//=> About Translations
 $lang['module_comments_about_setting']          = 'You can manage module setting from this section';
 
 //=> Tuş Çevirileri
@@ -32,16 +32,21 @@ $lang['module_comments_button_root']            = 'Root';
 $lang['module_comments_button_settings']        = 'Settings';
 $lang['module_comments_button_back_to_article'] = 'Back to article';
 
-//=> Etiket Çevirileri
+//=> Label Translations
 $lang['module_comments_label_allow_comments']   = 'Allow Comments';
 
-//=> Yardım Çevirileri
+//=> Help Translations
 $lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';
 $lang['module_comments_help_click_here_for_manage_comments']    = 'Click here for manage comments.';
 $lang['module_comments_help_click_here_for_go_back_to_article'] = 'Click here for go back to article.';
 
-$lang['module_comments_title'] 					= 'Comments module';
-$lang['module_comments_about'] 					= 'Manage comments';
+//=> Notification Translations
+$lang['module_comments_notification_cant_get_article_id']       = 'Could not get Article ID...';
+$lang['module_comments_notification_comment_status_changed']    = 'Comment status changed successfully...';
+$lang['module_comments_notification_comment_status_nchanged']   = 'Comment status could not change!';
+$lang['module_comments_notification_comment_deleted']           = 'Comment deleted successfully...';
+$lang['module_comments_notification_comment_ndeleted']          = 'Comment could not delete!';
+$lang['module_comments_notification_delete_question']           = 'Do you really want to delete selected comment?';
 $lang['module_comments_settings_title']			= 'Settings';
 $lang['module_comments_settings_text']			= 'The settings will be saved in the <var>/modules/Comments/config/config.php</var> file ';
 $lang['module_comments_setting_true_false']     = 'True / False option';

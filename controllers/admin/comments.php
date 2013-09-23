@@ -8,6 +8,34 @@
 class Comments extends Module_Admin
 {
     /**
+     * Fields on wich the htmlspecialchars function will not be used before saving
+     *
+     * @var array
+     */
+    protected $no_htmlspecialchars = array('content');
+
+    /**
+     * Fields on wich no XSS filtering is done
+     *
+     * @var array
+     */
+    protected $no_xss_filter = array('content');
+
+    /**
+     * Data array representing one category
+     *
+     * @var array
+     */
+    protected $data = array();
+
+    /**
+     * Lang Data array of the category
+     *
+     * @var array
+     */
+    protected $lang_data = array();
+
+    /**
      * Controller URL
      *
      * @var string (with admin url)
@@ -79,8 +107,6 @@ class Comments extends Module_Admin
             // Set article and page id for go back to article edit : id_article.id_page
             $this->template['rel'] = $rel;
 
-            $this->template['comments'] = self::get_list($id_article);
-
             // Send data to view file
             $this->output($this->controller_folder . 'comments');
         }
@@ -100,12 +126,11 @@ class Comments extends Module_Admin
 
     /**
      * Get comments for requested article
-     *
-     * @param $id_article
-     * @return array
      */
-    function get_list($id_article)
+    function get_list()
     {
+        $id_article = $this->input->post('id_article');
+
         // Get comments for current article
         $article_comments = $this->{$this->default_model}->get_list(array('id_article' => $id_article));
 
@@ -122,8 +147,10 @@ class Comments extends Module_Admin
             else
                 $comments['pending'][] = $article_comment;
 
-        // Return comments
-        return $comments;
+        // Send comments to view file
+        $this->template['comments'] = $comments;
+
+        $this->output($this->controller_folder . 'list');
     }
 
     // ------------------------------------------------------------------------
@@ -150,15 +177,127 @@ class Comments extends Module_Admin
 
     // ------------------------------------------------------------------------
 
-    function delete()
+    /**
+     * Delete item
+     * @param $id_article_comment
+     * @param $id_article
+     */
+    function delete($id_article_comment, $id_article)
     {
+        // Clear the cache
+        Cache()->clear_cache();
 
+        if ($this->{$this->default_model}->delete($id_article_comment) > 0)
+        {
+            // Reload container after change status, because we have tabs need to move item
+            $this->callback = array(
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article
+                        ),
+                        array(
+                            'update' => 'commentsContainer'
+                        )
+                    ),
+                ),
+                // Send success message
+                array(
+                    'fn' => 'ION.notification',
+                    'args' => array('success', lang('module_comments_notification_comment_deleted'))
+                )
+            );
+
+            $this->response();
+        }
+        else
+        {
+            // Send error message
+            $this->callback = array(
+                'fn' => 'ION.notification',
+                'args' => array('error', lang('module_comments_notification_comment_ndeleted'))
+            );
+
+            $this->response();
+        }
     }
 
     // ------------------------------------------------------------------------
 
-    function switch_online()
+    /**
+     * Set an item online / offline depending on its current context and status
+     *
+     * @param $id_article_comment
+     * @param $id_article
+     */
+    public function switch_status($id_article_comment, $id_article)
     {
+        // Clear the cache
+        Cache()->clear_cache();
+
+        // Change item status
+        $status = $this->{$this->default_model}->switch_status($id_article_comment);
+
+        if($status == 0 || $status == 1)
+        {
+            // Reload container after change status, because we have tabs need to move item
+            $this->callback = array(
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article
+                        ),
+                        array(
+                            'update' => 'commentsContainer'
+                        )
+                    ),
+                ),
+                // Send success message
+                array(
+                    'fn' => 'ION.notification',
+                    'args' => array('success', lang('module_comments_notification_comment_status_changed'))
+                )
+            );
+
+            $this->response();
+        }
+        else {
+            // Send error message
+            $this->callback = array(
+                'fn' => 'ION.notification',
+                'args' => array('error', lang('module_comments_notification_comment_status_nchanged'))
+            );
+
+            $this->response();
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Prepares data before saving
+     */
+    function _prepare_data()
+    {
+
+        // Standard fields
+        $fields = $this->db->list_fields($this->table);
+
+        // Set the data to the posted value.
+        foreach ($fields as $field)
+        {
+            if ($this->input->post($field) !== FALSE)
+            {
+                if ( ! in_array($field, $this->no_htmlspecialchars))
+                    $this->data[$field] = htmlspecialchars($this->input->post($field), ENT_QUOTES, 'utf-8');
+                else
+                    $this->data[$field] = $this->input->post($field);
+            }
+        }
 
     }
 

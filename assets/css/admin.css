@@ -18,3 +18,13 @@ div.active .toolbar-button, div.active .light-button {
     background: url(../images/icon_16_setting.png) no-repeat 4px 50%;
     padding-left: 24px
 }
+
+table.table-striped tbody > tr:nth-child(odd) > td,
+table.table-striped tbody > tr:nth-child(odd) > th {
+    background-color: #F5F5F5;
+}
+
+table.table-hover tbody > tr:hover > td,
+table.table-hover tbody > tr:hover > th {
+    background-color: #F5F5F5;
+}
