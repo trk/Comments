@@ -5,12 +5,25 @@
  */
 
 //=> Panel Çevirileri
-$lang['module_comments_title']                  = 'Yorum Modülü';
-$lang['module_comments_about']                  = 'İnternet sayfasına yazılan yorumları yönetin';
+$lang['module_comments_title']                      = 'Yorum Modülü';
+$lang['module_comments_about']                      = 'İnternet sayfasına yazılan yorumları yönetin';
 
 //=> Başlık Çevirileri
-$lang['module_comments_title_settings']         = 'Ayarlar';
-$lang['module_comments_title_root']             = 'Ana Dizin';
+$lang['module_comments_title_settings']             = 'Ayarlar';
+$lang['module_comments_title_root']                 = 'Ana Dizin';
+$lang['module_comments_title_comments_for_selected_article']    = '%s - İçin Yapılan Yorumlar';
+$lang['module_comments_title_total_comments']       = 'Toplam %s Yorum';
+$lang['module_comments_title_comments']             = 'Yorumlar : %s';
+$lang['module_comments_title_manage_comments']      = 'Yorumları Yönet';
+$lang['module_comments_title_comment_management']   = 'Yorum Yönetimi';
+$lang['module_comments_title_website']              = 'İnternet Sitesi';
+$lang['module_comments_title_ip']                   = 'IP Adresi';
+$lang['module_comments_title_pending_comments']     = 'Onay Bekleyen Yorumlar';
+$lang['module_comments_title_published_comments']   = 'Yayınlanan Yorumlar';
+$lang['module_comments_title_published']            = 'Yayınlanan';
+$lang['module_comments_title_pending']              = 'Onay Bekleyen';
+$lang['module_comments_title_total']                = 'Toplam';
+
 
 //=> Hakkında Çevirileri
 $lang['module_comments_about_setting']          = 'Modül ayarlarınız bu kısımdan yönetebilirsiniz';
@@ -18,12 +31,18 @@ $lang['module_comments_about_setting']          = 'Modül ayarlarınız bu kıs�
 //=> Tuş Çevirileri
 $lang['module_comments_button_root']            = 'Ana Dizin';
 $lang['module_comments_button_settings']        = 'Ayarlar';
+$lang['module_comments_button_back_to_article'] = 'Makaleye geri dön';
 
 //=> Etiket Çevirileri
 $lang['module_comments_label_allow_comments']   = 'Yorumlara İzin Ver';
 
 //=> Yardım Çevirileri
-$lang['module_comments_help_if_checked_comments_will_allowed'] = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
+$lang['module_comments_help_if_checked_comments_will_allowed']  = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
+$lang['module_comments_help_click_here_for_manage_comments']    = 'Yorumları yönetmek için buraya tıklayın.';
+$lang['module_comments_help_click_here_for_go_back_to_article'] = 'Makaleye geri dönmek için burayı tıklayın.';
+
+//=>
+$lang['module_comments_notification_cant_get_article_id']   = 'Makale ID sine erişilemiyor...';
 
 
 

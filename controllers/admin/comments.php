@@ -22,6 +22,13 @@ class Comments extends Module_Admin
     protected $controller_folder = 'admin/comments/';
 
     /**
+     * Default Model Name
+     *
+     * @var string
+     */
+    protected $default_model = 'comments_model';
+
+    /**
      * Constructor
      *
      * @access	public
@@ -30,11 +37,11 @@ class Comments extends Module_Admin
     public function construct()
     {
         // Models
-//        $this->load->model(
-//            array(
-//                'article_model',
-//                'comments_model'
-//            ), '', TRUE);
+        $this->load->model(
+            array(
+                'article_model',
+                'comments_model'
+            ), '', TRUE);
 
         // Set Controller URL
         $this->controller_url = admin_url() . 'module/comments/comments/';
@@ -53,43 +60,36 @@ class Comments extends Module_Admin
     // ------------------------------------------------------------------------
 
     /**
-     * Send data to get_list() for getting comments for article, if article we have article id correctly
+     * Get article comments list
+     *
+     * @param bool $id_article
+     * @param bool $rel
      */
-    function get_comments()
+    function article_comments($id_article = FALSE, $rel = FALSE)
     {
-        $id = $this->input->post('id_article');
-
-        $id_article = explode('.', $id);
-
-        if(! empty($id_article[1]))
+        // If we have article id and rel data get comments list
+        if($id_article != FALSE && $rel != FALSE)
         {
-            // Remove deleted article from DOM
-            $this->callback = array(
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article[1]
-                        ),
-                        array(
-                            'update' => 'commentsArticleContainer'
-                        )
-                    ),
-                ),
-                array(
-                    'fn' => 'ION.notification',
-                    'args' => array('success', "Article comments listed")
-                )
-            );
+            // Get article data
+            $this->template['article'] = $this->article_model->get_by_id($id_article);
 
-            $this->response();
+            // Get article lang data
+            $this->article_model->feed_lang_template($id_article, $this->template['article']);
+
+            // Set article and page id for go back to article edit : id_article.id_page
+            $this->template['rel'] = $rel;
+
+            $this->template['comments'] = self::get_list($id_article);
+
+            // Send data to view file
+            $this->output($this->controller_folder . 'comments');
         }
+        // Return Error Notification Message
         else
         {
             $this->callback = array(
                 'fn' => 'ION.notification',
-                'args' => array('error', "Can't get id_article, may be you tried dragging a page")
+                'args' => array('error', lang('module_comments_notification_cant_get_article_id'))
             );
 
             $this->response();
@@ -100,16 +100,69 @@ class Comments extends Module_Admin
 
     /**
      * Get comments for requested article
+     *
+     * @param $id_article
+     * @return array
      */
-    function get_list()
+    function get_list($id_article)
     {
-        $this->template['id_article'] = $this->input->post('id_article');
+        // Get comments for current article
+        $article_comments = $this->{$this->default_model}->get_list(array('id_article' => $id_article));
 
-        $this->output($this->controller_folder . 'comments');
+        // Create an empty array for seperate comments
+        $comments = array(
+            'published' => array(),
+            'pending'   => array()
+        );
+
+        // Set comments for status published / pending
+        foreach($article_comments as $article_comment)
+            if($article_comment['status']==1)
+                $comments['published'][] = $article_comment;
+            else
+                $comments['pending'][] = $article_comment;
+
+        // Return comments
+        return $comments;
     }
 
     // ------------------------------------------------------------------------
 
+    function get_form()
+    {
+
+    }
+
+    // ------------------------------------------------------------------------
+
+    function edit()
+    {
+
+    }
+
+    // ------------------------------------------------------------------------
+
+    function save()
+    {
+
+
+    }
+
+    // ------------------------------------------------------------------------
+
+    function delete()
+    {
+
+    }
+
+    // ------------------------------------------------------------------------
+
+    function switch_online()
+    {
+
+    }
+
+    // ------------------------------------------------------------------------
 
     /**
      * Adds "Addons" to core panels
@@ -139,10 +192,15 @@ class Comments extends Module_Admin
     {
 
         $CI =& get_instance();
-        $uri = $CI->uri->uri_string();
+//        $uri = $CI->uri->uri_string();
 
         // Send the article|page to the view
         $data['article'] = $object;
+
+        // Load comments model
+        $CI->load->model('comments_model', '', TRUE);
+
+        $data['count'] = $CI->comments_model->count_article_comments($data['article']['id_article']);
 
         // Options panel Top Addon
         $CI->load_addon_view(

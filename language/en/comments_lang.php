@@ -11,6 +11,18 @@ $lang['module_comments_about']                  = 'Manage your comments';
 //=> Başlık Çevirileri
 $lang['module_comments_title_settings']         = 'Settings';
 $lang['module_comments_title_root']             = 'Root';
+$lang['module_comments_title_comments_for_selected_article']    = 'Comments For Article - %s';
+$lang['module_comments_title_total_comments']       = 'Total %s Comment(s)';
+$lang['module_comments_title_comments']             = 'Comments : %s';
+$lang['module_comments_title_manage_comments']      = 'Manange Comments';
+$lang['module_comments_title_comment_management']   = 'Comment Management';
+$lang['module_comments_title_website']              = 'Website';
+$lang['module_comments_title_ip']                   = 'IP Address';
+$lang['module_comments_title_pending_comments']     = 'Pending Comments';
+$lang['module_comments_title_published_comments']   = 'Published Comments';
+$lang['module_comments_title_published']            = 'Published';
+$lang['module_comments_title_pending']              = 'Pending';
+$lang['module_comments_title_total']                = 'Total';
 
 //=> Hakkında Çevirileri
 $lang['module_comments_about_setting']          = 'You can manage module setting from this section';
@@ -18,12 +30,15 @@ $lang['module_comments_about_setting']          = 'You can manage module setting
 //=> Tuş Çevirileri
 $lang['module_comments_button_root']            = 'Root';
 $lang['module_comments_button_settings']        = 'Settings';
+$lang['module_comments_button_back_to_article'] = 'Back to article';
 
 //=> Etiket Çevirileri
 $lang['module_comments_label_allow_comments']   = 'Allow Comments';
 
 //=> Yardım Çevirileri
 $lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';
+$lang['module_comments_help_click_here_for_manage_comments']    = 'Click here for manage comments.';
+$lang['module_comments_help_click_here_for_go_back_to_article'] = 'Click here for go back to article.';
 
 $lang['module_comments_title'] 					= 'Comments module';
 $lang['module_comments_about'] 					= 'Manage comments';
