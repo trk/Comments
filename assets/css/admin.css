@@ -4,6 +4,26 @@ h2.main.comments {
 h2.main.comments-setting {
     background: url(../images/icon_40_setting.png) no-repeat 0 0;
 }
+.icon.ip-block,
+.button i.ip-block,
+a.button i.icon-ip-block {
+    background: url(../images/icon_16_block.png) no-repeat 0 0;
+}
+.icon.ip-blocked,
+.button i.ip-blocked,
+a.button i.icon-ip-blocked {
+    background: url(../images/icon_16_blocked.png) no-repeat 0 0;
+}
+.icon.comments,
+.button i.comments,
+a.button i.icon-comments {
+    background: url(../images/icon_16_module.png) no-repeat 0 0;
+}
+.icon.comments-setting,
+.button i.comments-setting,
+a.button i.icon-comments-setting {
+    background: url(../images/icon_16_setting.png) no-repeat 0 0;
+}
 
 div.active .toolbar-button, div.active .light-button {
     border:1px solid #bbb;

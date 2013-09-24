@@ -1,18 +1,20 @@
-Ionize Comments module
-=======================
+Comments Module For IONIZE CMS
+====================================
 
-* module version : 0.2b
-* Last update :		2013, 08 AUGUST
-* Ionize version :	1.0.4
-				
-### Authors
-* Pascal Gay / Hypee (original version)
-* Victor Efremov aka Xtro (compliant for v1.04)
-* Laurent Brugière aka Kink03 / Synaapse (adding panel to article)
+### Author
 
-### Installation
+* [İskender TOTOĞLU](http://www.altivebir.com.tr)
 
-* Register the module through the Ionize Modules panel (click on "install")
-* Ionize Comments Module -> Adding blog like comments capabilities to articles.
-(an example is given below of my current theme. You have to use your own.)
-* see installation.txt
+### Screenshots
+
+### Module Icon
+![Screenshot](http://i43.tinypic.com/2dbwi6e.jpg)
+
+### Module Article Addon
+![Screenshot](http://i39.tinypic.com/359y7np.jpg)
+
+### Comments For Selected Article (Pending Comments)
+![Screenshot](http://i41.tinypic.com/doxn9f.jpg)
+
+### Comments For Selected Article (Published Comments)
+![Screenshot](http://i43.tinypic.com/14jah5t.jpg)

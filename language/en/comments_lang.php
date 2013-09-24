@@ -20,9 +20,8 @@ $lang['module_comments_title_website']              = 'Website';
 $lang['module_comments_title_ip']                   = 'IP Address';
 $lang['module_comments_title_pending_comments']     = 'Pending Comments';
 $lang['module_comments_title_published_comments']   = 'Published Comments';
-$lang['module_comments_title_published']            = 'Published';
-$lang['module_comments_title_pending']              = 'Pending';
-$lang['module_comments_title_total']                = 'Total';
+$lang['module_comments_title_window_edit_comment']  = 'Edit Comment';
+
 
 //=> About Translations
 $lang['module_comments_about_setting']          = 'You can manage module setting from this section';
@@ -31,9 +30,13 @@ $lang['module_comments_about_setting']          = 'You can manage module setting
 $lang['module_comments_button_root']            = 'Root';
 $lang['module_comments_button_settings']        = 'Settings';
 $lang['module_comments_button_back_to_article'] = 'Back to article';
+$lang['module_comments_button_new_comments']    = 'Write New Comment';
 
 //=> Label Translations
 $lang['module_comments_label_allow_comments']   = 'Allow Comments';
+$lang['module_comments_label_published']            = 'Published';
+$lang['module_comments_label_pending']              = 'Pending';
+$lang['module_comments_label_total']                = 'Total';
 
 //=> Help Translations
 $lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';

@@ -150,16 +150,29 @@ class Comments extends Module_Admin
 
     // ------------------------------------------------------------------------
 
-    function get_form()
+    /**
+     *
+     */
+    public function get_form()
     {
+        $this->{$this->current_model}->feed_blank_template($this->template);
 
+        // Vehicle /=> Don't send $id_vehicle data to template!
+        $this->template[$this->pk_name] = '';
+
+        $this->output($this->controller_folder . 'comment');
     }
 
     // ------------------------------------------------------------------------
 
-    function edit()
+    /**
+     * @param $id
+     */
+    public function edit($id)
     {
+        $this->{$this->default_model}->feed_template($id, $this->template);
 
+        $this->output($this->controller_folder . 'comment');
     }
 
     // ------------------------------------------------------------------------

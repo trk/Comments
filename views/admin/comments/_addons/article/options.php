@@ -14,7 +14,7 @@
         </dl>
         <dl class="small compact">
             <dt>
-                <label><span class="label label-success"><?php echo lang('module_comments_title_published'); ?></span></label>
+                <label><span class="label label-success"><?php echo lang('module_comments_label_published'); ?></span></label>
             </dt>
             <dd>
                 <span class="badge badge-success"><?php echo $count['published']; ?></span>
@@ -22,7 +22,7 @@
         </dl>
         <dl class="small compact">
             <dt>
-                <label><span class="label label-danger"><?php echo lang('module_comments_title_pending'); ?></span></label>
+                <label><span class="label label-danger"><?php echo lang('module_comments_label_pending'); ?></span></label>
             </dt>
             <dd>
                 <span class="badge badge-danger"><?php echo $count['pending']; ?></span>
@@ -30,7 +30,7 @@
         </dl>
         <dl class="small compact">
             <dt>
-                <label><span class="label label-info"><?php echo lang('module_comments_title_total'); ?></span></label>
+                <label><span class="label label-info"><?php echo lang('module_comments_label_total'); ?></span></label>
             </dt>
             <dd>
                <span class="badge badge-info"><?php echo $count['all']; ?></span>

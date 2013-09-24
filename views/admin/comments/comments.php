@@ -2,17 +2,12 @@
     $title = $article[Settings::get_lang('default')]['title'];
     if ($title == '') $title = $name;
 ?>
+<input type="hidden" name="article_rel" id="article_rel" value="<?php echo $rel; ?>" />
+<input type="hidden" name="article_title" id="article_title" value="<?php echo $title; ?>" />
+
 <div id="maincolumn">
 
     <h2 class="main comments" id="main-title"><?php echo lang('module_comments_title_comments', $title); ?></h2>
-
-    <div class="main subtitle">
-        <p class="lite">
-            <a id="btnBackToArticle" class="button light plus" title="<?php echo lang('module_comments_help_click_here_for_go_back_to_article'); ?>">
-                <i class="icon arrow-left"></i><?php echo lang('module_comments_button_back_to_article'); ?>
-            </a>
-        </p>
-    </div>
 
     <hr />
 
@@ -51,21 +46,7 @@
     /**
      * Panel toolbox
      */
-    ION.initToolbox('empty_toolbox');
-
-    /**
-     * Back to article button
-     * Edit article link
-     */
-    var articleButton = $('btnBackToArticle');
-    articleButton.addEvent('click', function(e) {
-        e.stop();
-        ION.splitPanel({
-            'urlMain': admin_url + 'article/edit/<?php echo $rel; ?>',
-            'urlOptions': admin_url + 'article/get_options/<?php echo $rel; ?>',
-            'title': Lang.get('ionize_title_edit_article') + ' : <?php echo $title; ?>'
-        });
-    });
+    ION.initModuleToolbox('comments','article_comment_toolbox');
 
     /**
      * Comments Tabs

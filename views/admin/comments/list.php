@@ -42,6 +42,25 @@
     new SortableTable('<?php echo $comment_type; ?>CommentsTable',{sortOn: 0, sortBy: 'ASC'});
 
     /**
+     * Edit item
+     */
+    $$('#<?php echo $comment_type; ?>CommentsTable .edit').each(function(item, idx)
+    {
+        var id_article_comment  = item.getProperty('data-id_article_comment'),
+            id_article          =  item.getProperty('data-id_article');
+
+        item.addEvent('click', function(e)
+        {
+            ION.formWindow(
+                'comment' + id_article_comment,
+                'commentForm' + id_article_comment,
+                '<?php echo lang('module_comments_title_window_edit_comment'); ?>',
+                module_url + 'edit/' + id_article_comment + '/' + id_article
+            );
+        });
+    });
+
+    /**
      * Delete item
      */
     $$('#<?php echo $comment_type; ?>CommentsTable .delete').each(function(item, idx)

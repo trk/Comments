@@ -20,9 +20,7 @@ $lang['module_comments_title_website']              = 'İnternet Sitesi';
 $lang['module_comments_title_ip']                   = 'IP Adresi';
 $lang['module_comments_title_pending_comments']     = 'Onay Bekleyen Yorumlar';
 $lang['module_comments_title_published_comments']   = 'Yayınlanan Yorumlar';
-$lang['module_comments_title_published']            = 'Yayınlanan';
-$lang['module_comments_title_pending']              = 'Onay Bekleyen';
-$lang['module_comments_title_total']                = 'Toplam';
+$lang['module_comments_title_window_edit_comment']  = 'Yorumu Düzenle';
 
 
 //=> Hakkında Çevirileri
@@ -32,9 +30,13 @@ $lang['module_comments_about_setting']          = 'Modül ayarlarınız bu kıs�
 $lang['module_comments_button_root']            = 'Ana Dizin';
 $lang['module_comments_button_settings']        = 'Ayarlar';
 $lang['module_comments_button_back_to_article'] = 'Makaleye geri dön';
+$lang['module_comments_button_new_comments']    = 'Yeni Yorum Yaz';
 
 //=> Etiket Çevirileri
 $lang['module_comments_label_allow_comments']   = 'Yorumlara İzin Ver';
+$lang['module_comments_label_published']        = 'Yayınlanan';
+$lang['module_comments_label_pending']          = 'Onay Bekleyen';
+$lang['module_comments_label_total']            = 'Toplam';
 
 //=> Yardım Çevirileri
 $lang['module_comments_help_if_checked_comments_will_allowed']  = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
