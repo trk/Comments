@@ -129,26 +129,21 @@ class Comments extends Module_Admin
      */
     function get_list()
     {
+        // Get posted data
         $id_article = $this->input->post('id_article');
+        $status     = $this->input->post('status');
 
-        // Get comments for current article
-        $article_comments = $this->{$this->default_model}->get_list(array('id_article' => $id_article));
-
-        // Create an empty array for seperate comments
-        $comments = array(
-            'published' => array(),
-            'pending'   => array()
+        // Prepare where
+        $where      = array(
+            'id_article' => $id_article,
+            'status' => $status
         );
 
-        // Set comments for status published / pending
-        foreach($article_comments as $article_comment)
-            if($article_comment['status']==1)
-                $comments['published'][] = $article_comment;
-            else
-                $comments['pending'][] = $article_comment;
+        // Send data to template
+        $this->template['status']           = $status;
+        $this->template['comment_type']     = (($status == 0) ? 'pending' : 'published');
 
-        // Send comments to view file
-        $this->template['comments'] = $comments;
+        $this->template['article_comments'] = $this->{$this->default_model}->get_list($where);
 
         $this->output($this->controller_folder . 'list');
     }
@@ -196,10 +191,24 @@ class Comments extends Module_Admin
                     'args' => array(
                         $this->controller_url . 'get_list',
                         array(
-                            'id_article' => $id_article
+                            'id_article' => $id_article,
+                            'status' => 0
                         ),
                         array(
-                            'update' => 'commentsContainer'
+                            'update' => 'pendingCommentsContainer'
+                        )
+                    ),
+                ),
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article,
+                            'status' => 1
+                        ),
+                        array(
+                            'update' => 'publishedCommentsContainer'
                         )
                     ),
                 ),
@@ -249,10 +258,24 @@ class Comments extends Module_Admin
                     'args' => array(
                         $this->controller_url . 'get_list',
                         array(
-                            'id_article' => $id_article
+                            'id_article' => $id_article,
+                            'status' => 0
                         ),
                         array(
-                            'update' => 'commentsContainer'
+                            'update' => 'pendingCommentsContainer'
+                        )
+                    ),
+                ),
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article,
+                            'status' => 1
+                        ),
+                        array(
+                            'update' => 'publishedCommentsContainer'
                         )
                     ),
                 ),

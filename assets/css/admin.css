@@ -28,3 +28,81 @@ table.table-hover tbody > tr:hover > td,
 table.table-hover tbody > tr:hover > th {
     background-color: #F5F5F5;
 }
+
+.badge {
+     display: inline-block;
+     min-width: 10px;
+     padding: 3px 7px;
+     font-size: 12px;
+     font-weight: bold;
+     color: #FFF;
+     line-height: 1;
+     vertical-align: baseline;
+     white-space: nowrap;
+     text-align: center;
+     background-color: #999999;
+     border-radius: 10px;
+}
+.badge:empty { display: none; }
+.badge-default { background-color: #999999; }
+.badge-primary { background-color: #428BCA; }
+.badge-success { background-color: #5CB85C; }
+.badge-info { background-color: #5BC0DE; }
+.badge-warning { background-color: #F0AD4E; }
+.badge-danger { background-color: #D9534F; }
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    /*font-size: 75%;*/
+    font-weight: bold;
+    line-height: 1;
+    color: #FFF;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+.label:empty { display: none; }
+.label[href]:hover,
+.label[href]:focus {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.label-default { background-color: #999999; }
+.label-default[href]:hover,
+.label-default[href]:focus {
+    background-color: #7a7a7a;
+}
+
+.label-primary { background-color: #428BCA; }
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #3c7fb8;
+}
+
+.label-success { background-color: #5CB85C; }
+.label-success[href]:hover,
+.label-success[href]:focus {
+    background-color: #52a752;
+}
+
+.label-info { background-color: #5BC0DE; }
+.label-info[href]:hover,
+.label-info[href]:focus {
+    background-color: #54b0cc;
+}
+
+.label-warning { background-color: #F0AD4E; }
+.label-warning[href]:hover,
+.label-warning[href]:focus {
+    background-color: #d89d46;
+}
+
+.label-danger { background-color: #D9534F; }
+.label-danger[href]:hover,
+.label-danger[href]:focus {
+    background-color: #c84c49;
+}

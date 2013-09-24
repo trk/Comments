@@ -14,26 +14,26 @@
         </dl>
         <dl class="small compact">
             <dt>
-                <label><?php echo lang('module_comments_title_published'); ?></label>
+                <label><span class="label label-success"><?php echo lang('module_comments_title_published'); ?></span></label>
             </dt>
             <dd>
-                <?php echo $count['published']; ?>
+                <span class="badge badge-success"><?php echo $count['published']; ?></span>
             </dd>
         </dl>
         <dl class="small compact">
             <dt>
-                <label><?php echo lang('module_comments_title_pending'); ?></label>
+                <label><span class="label label-danger"><?php echo lang('module_comments_title_pending'); ?></span></label>
             </dt>
             <dd>
-                <?php echo $count['pending']; ?>
+                <span class="badge badge-danger"><?php echo $count['pending']; ?></span>
             </dd>
         </dl>
         <dl class="small compact">
             <dt>
-                <label><?php echo lang('module_comments_title_total'); ?></label>
+                <label><span class="label label-info"><?php echo lang('module_comments_title_total'); ?></span></label>
             </dt>
             <dd>
-                <?php echo $count['all']; ?>
+               <span class="badge badge-info"><?php echo $count['all']; ?></span>
             </dd>
         </dl>
         <dl class="small compact">

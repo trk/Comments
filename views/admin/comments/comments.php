@@ -18,8 +18,28 @@
 
     <div class="mainTabs">
 
-        <!-- Use XHR for Load Comments -->
-        <div id="commentsContainer"></div>
+        <!-- Comments Tabs -->
+        <div id="commentsTab" class="mainTabs">
+            <ul class="tab-menu">
+                <li><a><span><?php echo lang('module_comments_title_pending_comments'); ?></span></a></li>
+                <li><a><span><?php echo lang('module_comments_title_published_comments'); ?></span></a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Comments list -->
+        <div id="commentsTabContent">
+
+            <!-- Pending Comments -->
+            <div class="tabcontent">
+                <div id="pendingCommentsContainer"></div>
+            </div>
+
+            <!-- Published Comments -->
+            <div class="tabcontent">
+                <div id="publishedCommentsContainer"></div>
+            </div>
+        </div>
 
     </div>
 
@@ -48,12 +68,45 @@
     });
 
     /**
-     * Load comments list to #commentsContainer
+     * Comments Tabs
+     */
+    new TabSwapper({
+        tabsContainer: 'commentsTab',
+        sectionsContainer: 'commentsTabContent',
+        selectedClass: 'selected',
+        deselectedClass: '',
+        tabs: 'li',
+        clickers: 'li a',
+        sections: 'div.tabcontent',
+        cookieName: 'commentsTab'
+    });
+
+    /**
+     * Load pending comments
      */
     ION.HTML(
         module_url + 'get_list',
         {
-            'id_article' : <?php echo $article['id_article']; ?>
+            'id_article' : <?php echo $article['id_article']; ?>,
+            'status' : 0
         },
-        {'update': 'commentsContainer'});
+        {
+            'update': 'pendingCommentsContainer'
+        }
+    );
+
+    /**
+     * Load published comments
+     */
+    ION.HTML(
+        module_url + 'get_list',
+        {
+            'id_article' : <?php echo $article['id_article']; ?>,
+            'status' : 1
+        },
+        {
+            'update': 'publishedCommentsContainer'
+        }
+    );
+
 </script>
