@@ -1,30 +1,23 @@
 <?php
 
 /**
- * Ionize Comments module tags
+ * Comments Module's TagManager
  *
- * This class define the Comments module tags
- *
- * @package		Ionize
- * @author		Pascal Gay, Victor Efremov, Laurent Brugière
- * @license		http://ionizecms.com/doc-license
- * @link		http://ionizecms.com
- * @since		Version 1.0.3
- *
- *
- */
-
-/**
- * Comments Module's TagManager 
- *
+ * @author  : İskender TOTOĞLU | Altı ve Bir Bilişim Teknolojileri | http://www.altivebir.com.tr
  */
 class Comments_Tags extends TagManager {
 
     /**
-     * Tags declaration 
-     * 
+     * Tags declaration
+     * To be available, each tag must be declared in this static array.
+     *
+     * @var array
+     *
+     * @usage	"<tag scope>" => "<method_in_this_class>"
+     * 			Examples :
+     * 			"articles:hello" => "my_hello_method" : The tag "hello" will be usable as child of "articles"
+     * 			"comments:comments" => "my_comments_method"
      */
-    
     public static $tag_definitions = array
         (
         "comments:comments"                         => "tag_comments",
@@ -41,8 +34,8 @@ class Comments_Tags extends TagManager {
         'comments:comments:admin'                   => 'tag_comments_simple_value',
         "comments:count"                            => "tag_count",
 
+        // @TODO Rewrite theese methods
         "comments:comment_save"                     => "tag_comment_save", // Save new comment
-        "comments:comments_count"                   => "tag_comments_count", // Return number of comments for an article
         "comments:gravatar"                         => "tag_gravatar", // Display avatar, using gravatar site
         "comments:comments_allowed"                 => "tag_comments_allowed", // Display nested content if comments allowed
         "comments:comments_admin"                   => "tag_comments_admin", // Display admin options & save change
@@ -51,9 +44,6 @@ class Comments_Tags extends TagManager {
         "comments:error_message"                    => "tag_error_message", // Display error flash message
         "comments:comments_allowed"                 => "tag_comments_allowed",  // Display error flash message 
         "comments:author_site"                      => 'tag_author_site'
-
-        // Added <ion:comments_count from="xx" /> ----> xx = 'parent' : check url and datas of the article link to OR 'ID:yy' : yy is the id number of the article for a specific query
-        // Added <ion:comments_count verbose="true" />  display message about count of comments like '0' : leave your comment...
     );
 
     // ------------------------------------------------------------------------
@@ -79,14 +69,16 @@ class Comments_Tags extends TagManager {
     // ------------------------------------------------------------------------
 
     /**
-     * Loops through comments
+     * Comments Tag : Loops through comments
      *
      * @param FTL_Binding $tag
      * @return string
      *
-     * @usage	<ion:comments:comments >
-     *				...
-     *			</ion:comments:comments>
+     * @usage	<ion:comments>
+     *              <ion:comments>
+     *				    ...
+     *              <ion:comments>
+     *			</ion:comments>
      *
      */
     public static function tag_comments(FTL_Binding $tag)
@@ -154,14 +146,14 @@ class Comments_Tags extends TagManager {
     // ------------------------------------------------------------------------
 
     /**
-     * Comment tag
+     * Count tag
      *
      * @param		FTL_Binding		Tag object
      * @return		String			Tag attribute or ''
      *
-     * @usage		<ion:comments:comments>
-     *					<ion:comment field="id_article_comment|id_article|author|site|content|ip|created|updated" />
-     * 				</ion:comments:comments>
+     * @usage		<ion:comments />
+     *					<ion:count field="pending|published|all" />
+     * 				</ion:comments>
      *
      */
     public static function tag_count(FTL_Binding $tag)
@@ -197,19 +189,8 @@ class Comments_Tags extends TagManager {
     }
 
     // ------------------------------------------------------------------------
-
-    /**
-     * Loads the main Front module's view
-     *
-     * @param FTL_Binding $tag
-     *
-     * @return mixed
-     */
-    public static function tag_comments_main(FTL_Binding $tag) {
-        $view = self::$ci->load->view('index', '', TRUE);
-
-        return $view;
-    }
+    // @TODO Check under lines!!
+    // ------------------------------------------------------------------------
 
     /*     * *********************************************************************
      * Save the new entry, if "POST" detected
