@@ -27,3 +27,6 @@ Comments Module For IONIZE CMS
 
 ### Preview Comment
 ![Screenshot](http://i42.tinypic.com/102mefb.jpg)
+
+### Front End - Module View
+![Screenshot](http://i44.tinypic.com/de88w2.jpg)

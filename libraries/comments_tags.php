@@ -27,16 +27,23 @@ class Comments_Tags extends TagManager {
     
     public static $tag_definitions = array
         (
-        "comments:comments"                         => "tag_comments", // Comments loop
-        "comments:comment"                          => "tag_comment", // Comment
-        "comments:comment_form"                     => "tag_comment_form", // Display "comment" form
+        "comments:comments"                         => "tag_comments",
+        'comments:comments:id_article_comment'      => 'tag_comments_simple_value',
+        'comments:comments:id_article'              => 'tag_comments_simple_value',
+        'comments:comments:author'                  => 'tag_comments_simple_value',
+        'comments:comments:email'                   => 'tag_comments_simple_value',
+        'comments:comments:site'                    => 'tag_comments_simple_value',
+        'comments:comments:content'                 => 'tag_comments_simple_value',
+        'comments:comments:ip'                      => 'tag_comments_simple_value',
+        'comments:comments:status'                  => 'tag_comments_simple_value',
+        'comments:comments:created'                 => 'tag_comments_simple_date',
+        'comments:comments:updated'                 => 'tag_comments_simple_date',
+        'comments:comments:admin'                   => 'tag_comments_simple_value',
+        "comments:count"                            => "tag_count",
+        "comments:view"                             => "tag_view",
+
         "comments:comment_save"                     => "tag_comment_save", // Save new comment
         "comments:comments_count"                   => "tag_comments_count", // Return number of comments for an article
-        "comments:content"                          => "tag_content", // Return comment content
-        "comments:author"                           => "tag_author", // Return comment author
-        "comments:email"                            => "tag_email", // Return comment email
-        "comments:date"                             => "tag_date", // Display comment date
-        "comments:id"                               => "tag_id", // Display comment id
         "comments:gravatar"                         => "tag_gravatar", // Display avatar, using gravatar site
         "comments:comments_allowed"                 => "tag_comments_allowed", // Display nested content if comments allowed
         "comments:comments_admin"                   => "tag_comments_admin", // Display admin options & save change
@@ -50,16 +57,180 @@ class Comments_Tags extends TagManager {
         // Added <ion:comments_count verbose="true" />  display message about count of comments like '0' : leave your comment...
     );
 
+    // ------------------------------------------------------------------------
+
     /**
      * Base module tag
+     * The index function of this class refers to the <ion:#module_name /> tag
+     * In other words, this function makes the <ion:#module_name /> tag
+     * available as main module parent tag for all other tags defined
+     * in this class.
+     *
+     * @usage	<ion:comments >
+     *			...
+     *			</ion:comments>
      *
      */
-    public static function index(FTL_Binding $tag) {
+    public static function index(FTL_Binding $tag)
+    {
         $str = $tag->expand();
         return $str;
     }
 
     // ------------------------------------------------------------------------
+
+    /**
+     * Loads the main Front module's view
+     * Because the parent tag (index) is expanded, the result of this method will be displayed
+     *
+     * @param FTL_Binding $tag
+     *
+     * @return mixed
+     */
+    public static function tag_view(FTL_Binding $tag)
+    {
+        $file = $tag->getAttribute('file');;
+
+        if (!is_null($file) && @file_exists(MODPATH.'Comments/views/' . $file . EXT))
+        {
+            $view = self::$ci->load->view($file, '', TRUE);
+
+            return $view;
+        }
+        if(!is_null($file))
+            return self::show_tag_error(
+                $tag,
+                'View file <b>"'. $file.EXT .'"</b> could not found.'
+            );
+        else
+            return self::show_tag_error(
+                $tag,
+                'Please specify <b>"the file name"</b>, which want to use.'
+            );
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Loops through comments
+     *
+     * @param FTL_Binding $tag
+     * @return string
+     *
+     * @usage	<ion:comments:comments >
+     *				...
+     *			</ion:comments:comments>
+     *
+     */
+    public static function tag_comments(FTL_Binding $tag)
+    {
+        // Returned string
+        $str = '';
+
+        // Model load
+        self::load_model('comments_model', '');
+
+        $article = $tag->get('article');
+
+        // Prepare where
+        $where['id_article']    = $article['id_article'];
+
+        // @TODO Get user and if user is admin show all comments
+        // $user = User()->get_user();
+
+        $where['status']        = 1;
+
+        // Comments array
+        $article_comments = self::$ci->comments_model->get_list($where);
+
+        foreach($article_comments as $article_comment)
+        {
+            // Set the local tag var "article_comment"
+            $tag->set('article_comment', $article_comment);
+
+            // Tag expand : Process of the children tags
+            $str .= $tag->expand();
+        }
+
+        return $str;
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Connect to "core" for "tag_simple_date" function
+     *
+     * @param FTL_Binding $tag
+     * @return Mixed|string
+     */
+    public static function tag_comments_simple_date(FTL_Binding $tag)
+    {
+        $tag->setAttribute('from', 'article_comment');
+
+        return self::tag_simple_date($tag);
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Connect to "core" for "tag_simple_value" function
+     * @param FTL_Binding $tag
+     * @return null|string
+     */
+    public static function tag_comments_simple_value(FTL_Binding $tag)
+    {
+        $tag->setAttribute('from', 'article_comment');
+
+        return self::tag_simple_value($tag);
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Comment tag
+     *
+     * @param		FTL_Binding		Tag object
+     * @return		String			Tag attribute or ''
+     *
+     * @usage		<ion:comments:comments>
+     *					<ion:comment field="id_article_comment|id_article|author|site|content|ip|created|updated" />
+     * 				</ion:comments:comments>
+     *
+     */
+    public static function tag_count(FTL_Binding $tag)
+    {
+        // Returns the field value or if NULL set value "published"
+        $field = $tag->getAttribute('field', 'published');
+
+        // Model load
+        self::load_model('comments_model', '');
+
+        $article = $tag->get('article');
+
+        // Count Comments array [pending,published,all]
+        $count_article_comments = self::$ci->comments_model->count_article_comments($article['id_article']);
+
+        if ( ! is_null($field) && array_key_exists($field, $count_article_comments))
+        {
+            // Get the count result
+            $count = $count_article_comments[$field];
+
+            return $count;
+        }
+
+        // Here we have the choice :
+        // - Ether return nothing if the field attribute isn't set or doesn't exist
+        // - Ether silently return ''
+        return self::show_tag_error(
+            $tag,
+            'The attribute <b>"field"</b> is not set or the field doesn\'t exists.'
+        );
+
+        // return '';
+    }
+
+    // ------------------------------------------------------------------------
+
     /**
      * Loads the main Front module's view
      *
@@ -71,17 +242,6 @@ class Comments_Tags extends TagManager {
         $view = self::$ci->load->view('index', '', TRUE);
 
         return $view;
-    }
-
-    /*     * *********************************************************************
-     * Display the form for new blog comment entry
-     * Might not be used, use a partial view instead
-     */
-
-    public static function tag_comment_form(FTL_Binding $tag) {
-
-        // the tag returns the content of this view :   
-        //return $tag->parse_as_nested(file_get_contents(MODPATH . 'Comments/views/comment_form' . EXT));
     }
 
     /*     * *********************************************************************
@@ -110,169 +270,6 @@ class Comments_Tags extends TagManager {
         return;
     }
 
-    /*     * *********************************************************************
-     * Displaying comments
-     * Loops through the list of existing comments 
-     */
-
-    public static function tag_comments(FTL_Binding $tag) {
-
-        $CI = & get_instance();
-        // Loads the comments module model
-        if (!isset($CI->comment_model))
-            $CI->load->model('comments_comment_model', 'comment_model', true);
-
-        // Load comments
-        $comments = $CI->comment_model->get_comments($tag->locals->article['id_article']);
-
-
-        // Make comment count available to child tags
-        if (isset($comments))
-            $tag->locals->comment_count = sizeof($comments);
-        else
-            $tag->locals->comment_count = 0;
-
-        $output = ""; // Var used to store the built display
-        // Loop through comments
-        foreach ($comments as $comment) {
-            // Make comment available to child tags
-            //$tag->locals->comment = $comment;
-            $tag->set('comment', $comment);
-
-            // Get "comments" tag content & execute child tags
-            $output .= $tag->expand();
-        }
-
-        // Return output, for display
-        return $output;
-
-    }
-
-    /*     * *********************************************************************
-     * Display number of comments attached to the post
-     * <ion:comments_count from="parent" /> --> display comments of the linked article
-     * <ion:comments_count from="12" /> --> display comments of the article with ID = 12 (example)
-     *
-     */
-
-    public static function tag_comments_count(FTL_Binding $tag) {
-        // get CodeIgniter instance
-        $CI = & get_instance();
-        // Loads the comments module model
-        if (!isset($CI->comment_model))
-            $CI->load->model('comments_comment_model', 'comment_model', true);
-
-        // Load comments of the current article
-        $comments = $CI->comment_model->get_comments($tag->locals->article['id_article']);
-
-        // comments from : parent, current or ID article
-        // usage : <ion:comments:comments_count from="parent" /> or <ion:comments:comments_count from="12" />
-        $from = $tag->getAttribute('from');
-        if ($from == '') {
-            //return 'The attribute <b>"from"</b> is empty.';
-        } elseif ($from == 'parent') {
-            // Load comments of the linked article
-            $link_id = $tag->locals->article['link_id'];
-            if (!empty($link_id)) {
-                $link_id = explode(".", $link_id);
-                $comments = $CI->comment_model->get_comments($link_id[1]);
-            }            
-        } elseif (is_numeric($from)) {
-            // Load comments of the article with id xx
-            $comments = $CI->comment_model->get_comments($from);
-        }
-
-        $output = sizeof($comments);
-
-        // adding message with count
-        // usage <ion:comments:comments_count verbose="true" />
-        $verbose = $tag->getAttribute('verbose');
-        if ($verbose) {
-            $nb_comms = $output;
-            switch ($nb_comms) {
-                case '0':
-                case '':
-                    $output = lang('module_comments_count_0');
-                    break;
-            
-                case '1':
-                    $output = lang('module_comments_count_1');
-                    break;
-                
-                default:
-                    $output = preg_replace('/%s/', $nb_comms, lang('module_comments_count_x')) ;
-                    break;
-            }
-            if ($tag->locals->article['comment_allow'] == "0") {
-                $output = lang('module_comments_count_no');
-            }
-        }
-        
-        return $output;
-    }
-
-
-    /*     * *********************************************************************
-     * Display comment's content
-     *
-     */
-
-    public static function tag_content(FTL_Binding $tag) {
-        //return $tag->locals->comment["content"];
-        return self::output_value($tag, $tag->locals->comment["content"]);
-    }
-
-    /*     * *********************************************************************
-     * Display comment's author
-     *
-     */
-
-    public static function tag_author(FTL_Binding $tag) {
-        return $tag->locals->comment["author"];
-    }
-    
-        /*     * *********************************************************************
-     * Display comment's author
-     *
-     */
-
-    public static function tag_author_site(FTL_Binding $tag) {
-        return $tag->locals->comment["site"];
-    }
-    
-    
-    
-    
-
-    /*     * *********************************************************************
-     * Display comment's email
-     *
-     */
-
-    public static function tag_email(FTL_Binding $tag) {
-        return $tag->locals->comment["email"];
-    }
-
-    /*     * *********************************************************************
-     * Display comment's creation date
-     * @TODO : create a diff date instead the date itself : ex (french) : 'Il y à 4 jours et 17 heures'
-     *
-     */
-
-    public static function tag_date(FTL_Binding $tag) {
-        if (!isDate($tag->locals->comment["created"]))
-            return;
-        return $tag->locals->comment["created"];
-    }
-
-    /*     * *********************************************************************
-     * Display comment's id
-     *
-     */
-
-    public static function tag_id(FTL_Binding $tag) {
-        return $tag->locals->comment["id_article_comment"];
-    }
 
     /*     * **********************************************************************
      * Display comment's author's gravatar
@@ -386,13 +383,8 @@ class Comments_Tags extends TagManager {
      * Expands the tag (display tag content) if comments are allowed
      *
      */
-
     public static function tag_comments_allowed(FTL_Binding $tag) {
-        return $tag->locals->article['comment_allow'];
-        //$result = $tag->locals->article['comment_allow'] == "1" ? $result = $tag->expand() : $result = "Commentaires désactivés";
-        //$result = $tag->expand();
-        //return $result;
-        //return $result;
+        $result = $tag->locals->article['comment_allow'] == "1" ? $result = $tag->expand() : $result = "";
+        return $result;
     }
-
 }
