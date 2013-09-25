@@ -42,6 +42,30 @@ class Comments_model extends Base_model
     }
 
     /**
+     * Save the comment
+     *
+     * @param 	array	Standard data table
+     *
+     * @return	int		Comment saved ID
+     *
+     */
+    public function save($data)
+    {
+        // New comment : Created field
+        if( ! $data['id_article_comment'] OR $data['id_article_comment'] == '')
+            $data['created'] = $data['updated'] = date('Y-m-d H:i:s');
+        // Existing comment : Update date
+        else
+            $data['updated'] = date('Y-m-d H:i:s');
+
+        // Dates
+        $data = $this->_set_dates($data);
+
+        // Article saving
+        return parent::save($data);
+    }
+
+    /**
      * Set an item online / offline depending on its current status
      *
      * @param	int			item ID
@@ -63,6 +87,42 @@ class Comments_model extends Base_model
         $this->{$this->db_group}->update($this->table);
 
         return $status;
+    }
+
+    /**
+     * Set the correct dates to one comment and return it
+     *
+     * @param array		Article array
+     *
+     * @return array
+     *
+     */
+    protected function _set_dates($data)
+    {
+        $data['created'] = (isset($data['created']) && $data['created']) ? getMysqlDatetime($data['created'], Settings::get('date_format')) : '0000-00-00';
+        $data['updated'] = (isset($data['updated']) && $data['updated']) ? getMysqlDatetime($data['updated'], Settings::get('date_format')) : '0000-00-00';
+
+        return $data;
+    }
+
+    /**
+     * Get Client Ip Address
+     *
+     * @return mixed
+     */
+    function get_client_ip() {
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+
+        return $ip;
     }
 }
 

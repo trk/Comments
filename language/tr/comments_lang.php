@@ -17,10 +17,13 @@ $lang['module_comments_title_comments']             = 'Yorumlar : %s';
 $lang['module_comments_title_manage_comments']      = 'Yorumları Yönet';
 $lang['module_comments_title_comment_management']   = 'Yorum Yönetimi';
 $lang['module_comments_title_website']              = 'İnternet Sitesi';
+$lang['module_comments_title_comment']              = 'Yorum';
 $lang['module_comments_title_ip']                   = 'IP Adresi';
 $lang['module_comments_title_pending_comments']     = 'Onay Bekleyen Yorumlar';
 $lang['module_comments_title_published_comments']   = 'Yayınlanan Yorumlar';
 $lang['module_comments_title_window_edit_comment']  = 'Yorumu Düzenle';
+$lang['module_comments_title_window_new_comment']   = 'Yeni Yorum Yaz';
+$lang['module_comments_title_window_preview_comment']   = 'Yoruma Gözat';
 
 
 //=> Hakkında Çevirileri
@@ -50,6 +53,8 @@ $lang['module_comments_notification_comment_status_nchanged']   = 'Yorumun durum
 $lang['module_comments_notification_comment_deleted']           = 'Yorum başarıyla silindi...';
 $lang['module_comments_notification_comment_ndeleted']          = 'Yorum silinemedi...';
 $lang['module_comments_notification_delete_question']           = 'Seçili olan yorumu silmek istediğinizden eminmisiniz?';
+$lang['module_comments_notification_comment_saved']             = 'Yorum başarıyla kayıt edildi...';
+$lang['module_comments_notification_comment_nsaved']            = 'Yorum kayıt edilemedi!';
 
 
 $lang['module_comments_settings_title']			= 'Ayarlar';

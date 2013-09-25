@@ -12,20 +12,36 @@
 </div>
 <script type="text/javascript">
 
+    var module_url = admin_url + 'module/comments/comments/',
+        id_article = $('id_article').value,
+        rel_article = $('rel_article').value,
+        title_article = $('title_article').value,
+        button_new_comment = $('btnNewComment'),
+        button_back_to_article = $('btnBackToArticle');
+
+    /**
+     * New Comment
+     */
+    button_new_comment.addEvent('click', function(e)
+    {
+        ION.formWindow(
+            'comment',
+            'commentForm',
+            '<?php echo lang('module_comments_title_window_new_comment'); ?>',
+            module_url + 'get_form/' + id
+        );
+    });
+
     /**
      * Back to article button
      * Edit article link
      */
-    var article_rel = $('article_rel').value,
-        article_title = $('article_title').value,
-        articleButton = $('btnBackToArticle');
-
-    articleButton.addEvent('click', function(e) {
+    button_back_to_article.addEvent('click', function(e) {
         e.stop();
         ION.splitPanel({
-            'urlMain': admin_url + 'article/edit/' + article_rel,
-            'urlOptions': admin_url + 'article/get_options/' + article_rel,
-            'title': Lang.get('ionize_title_edit_article') + ' : ' + article_title
+            'urlMain': admin_url + 'article/edit/' + rel_article,
+            'urlOptions': admin_url + 'article/get_options/' + rel_article,
+            'title': Lang.get('ionize_title_edit_article') + ' : ' + title_article
         });
     });
 

@@ -22,18 +22,18 @@ class Comments extends Module_Admin
     protected $no_xss_filter = array('content');
 
     /**
+     * Fields which required
+     *
+     * @var array
+     */
+    protected $required_fields  = array('author', 'email', 'content');
+
+    /**
      * Data array representing one category
      *
      * @var array
      */
     protected $data = array();
-
-    /**
-     * Lang Data array of the category
-     *
-     * @var array
-     */
-    protected $lang_data = array();
 
     /**
      * Controller URL
@@ -48,6 +48,13 @@ class Comments extends Module_Admin
      * @var string
      */
     protected $controller_folder = 'admin/comments/';
+
+    /**
+     * Default Database Table
+     *
+     * @var string
+     */
+    protected $table = 'article_comment';
 
     /**
      * Default Model Name
@@ -151,14 +158,21 @@ class Comments extends Module_Admin
     // ------------------------------------------------------------------------
 
     /**
-     *
+     * Create new comment
      */
-    public function get_form()
+    public function get_form($id_article)
     {
-        $this->{$this->current_model}->feed_blank_template($this->template);
+        $this->{$this->default_model}->feed_blank_template($this->template);
 
-        // Vehicle /=> Don't send $id_vehicle data to template!
-        $this->template[$this->pk_name] = '';
+        $user = User()->get_user();
+
+        // Send data to view file
+        $this->template['id_article']   = $id_article;
+        $this->template['site']         = base_url();
+        $this->template['author']       = $user['screen_name'];
+        $this->template['email']        = $user['email'];
+        $this->template['status']       = 1;
+        $this->template['ip']           = $this->{$this->default_model}->get_client_ip();
 
         $this->output($this->controller_folder . 'comment');
     }
@@ -166,20 +180,94 @@ class Comments extends Module_Admin
     // ------------------------------------------------------------------------
 
     /**
-     * @param $id
+     * Edit comment
+     *
+     * @param $id_article_comment
      */
-    public function edit($id)
+    public function edit($id_article_comment)
     {
-        $this->{$this->default_model}->feed_template($id, $this->template);
+        $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
 
         $this->output($this->controller_folder . 'comment');
     }
 
     // ------------------------------------------------------------------------
 
+    /**
+     * View comment
+     *
+     * @param $id_article_comment
+     */
+    public function view($id_article_comment)
+    {
+        $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
+
+        $this->output($this->controller_folder . 'view');
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Save / Update Comment
+     */
     function save()
     {
 
+        if($this->_check_before_save() == TRUE)
+        {
+            $id_article = $this->input->post('id_article');
+
+            // Clear the cache
+            Cache()->clear_cache();
+
+            // Prepare Form Datas
+            $this->_prepare_data();
+
+            // Save data
+            $this->{$this->default_model}->save($this->data);
+
+            // Send Success Message
+            $this->callback = array(
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article,
+                            'status' => 0
+                        ),
+                        array(
+                            'update' => 'pendingCommentsContainer'
+                        )
+                    ),
+                ),
+                array(
+                    'fn' => 'ION.HTML',
+                    'args' => array(
+                        $this->controller_url . 'get_list',
+                        array(
+                            'id_article' => $id_article,
+                            'status' => 1
+                        ),
+                        array(
+                            'update' => 'publishedCommentsContainer'
+                        )
+                    ),
+                ),
+                // Send success message
+                array(
+                    'fn' => 'ION.notification',
+                    'args' => array('success', lang('module_comments_notification_comment_saved'))
+                )
+            );
+
+            $this->response();
+        }
+
+        else
+        {
+            $this->error(lang('module_comments_notification_comment_nsaved'));
+        }
 
     }
 
@@ -335,6 +423,30 @@ class Comments extends Module_Admin
             }
         }
 
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Check if required fields done.
+     *
+     * @returns		Boolean		True if the save can be done, false if not
+     *
+     */
+    function _check_before_save()
+    {
+        $require_fields = $this->required_fields;
+
+        $return = FALSE;
+
+        foreach ($require_fields as $required_field) {
+            if ($this->input->post($required_field) !== FALSE && $this->input->post($required_field) != '')
+                $return = TRUE;
+            else
+                return FALSE;
+        }
+
+        return $return;
     }
 
     // ------------------------------------------------------------------------

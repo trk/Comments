@@ -9,7 +9,7 @@
             <th><?php echo lang('module_comments_title_ip') ?></th>
             <th axis="string"><?php echo lang('ionize_label_created') ?></th>
             <th axis="string"><?php echo lang('ionize_label_updated') ?></th>
-            <th class="right" style="width:100px;"><?php echo lang('ionize_label_actions') ?></th>
+            <th class="center" style="width:100px;"><?php echo lang('ionize_label_actions') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +26,8 @@
                 <td>
                     <a data-id_article_comment="<?php echo $article_comment['id_article_comment']; ?>" data-id_article="<?php echo $article_comment['id_article']; ?>" class="icon delete right mr5"></a>
                     <a data-id_article_comment="<?php echo $article_comment['id_article_comment']; ?>" data-id_article="<?php echo $article_comment['id_article']; ?>" class="icon status<?php if($article_comment['status'] == 1){ ?> online<?php } else { ?> offline<?php } ?> right mr5"></a>
-                    <a class="icon right edit mr5" rel="" title=""></a>
+                    <a data-id_article_comment="<?php echo $article_comment['id_article_comment']; ?>" class="icon edit right mr5"></a>
+                    <a data-id_article_comment="<?php echo $article_comment['id_article_comment']; ?>" class="icon zoomin right mr5"></a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -42,12 +43,29 @@
     new SortableTable('<?php echo $comment_type; ?>CommentsTable',{sortOn: 0, sortBy: 'ASC'});
 
     /**
+     * Preview item
+     */
+    $$('#<?php echo $comment_type; ?>CommentsTable .zoomin').each(function(item, idx)
+    {
+        var id_article_comment  = item.getProperty('data-id_article_comment');
+
+        item.addEvent('click', function(e)
+        {
+            ION.formWindow(
+                'comment' + id_article_comment,
+                'commentForm' + id_article_comment,
+                '<?php echo lang('module_comments_title_window_preview_comment'); ?>',
+                module_url + 'view/' + id_article_comment
+            );
+        });
+    });
+
+    /**
      * Edit item
      */
     $$('#<?php echo $comment_type; ?>CommentsTable .edit').each(function(item, idx)
     {
-        var id_article_comment  = item.getProperty('data-id_article_comment'),
-            id_article          =  item.getProperty('data-id_article');
+        var id_article_comment  = item.getProperty('data-id_article_comment');
 
         item.addEvent('click', function(e)
         {
@@ -55,7 +73,7 @@
                 'comment' + id_article_comment,
                 'commentForm' + id_article_comment,
                 '<?php echo lang('module_comments_title_window_edit_comment'); ?>',
-                module_url + 'edit/' + id_article_comment + '/' + id_article
+                module_url + 'edit/' + id_article_comment
             );
         });
     });

@@ -2,8 +2,9 @@
     $title = $article[Settings::get_lang('default')]['title'];
     if ($title == '') $title = $name;
 ?>
-<input type="hidden" name="article_rel" id="article_rel" value="<?php echo $rel; ?>" />
-<input type="hidden" name="article_title" id="article_title" value="<?php echo $title; ?>" />
+<input type="hidden" name="id_article" id="id_article" value="<?php echo $article['id_article']; ?>" />
+<input type="hidden" name="rel_article" id="rel_article" value="<?php echo $rel; ?>" />
+<input type="hidden" name="title_article" id="title_article" value="<?php echo $title; ?>" />
 
 <div id="maincolumn">
 

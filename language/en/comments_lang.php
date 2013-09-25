@@ -17,10 +17,13 @@ $lang['module_comments_title_comments']             = 'Comments : %s';
 $lang['module_comments_title_manage_comments']      = 'Manange Comments';
 $lang['module_comments_title_comment_management']   = 'Comment Management';
 $lang['module_comments_title_website']              = 'Website';
+$lang['module_comments_title_comment']              = 'Comment';
 $lang['module_comments_title_ip']                   = 'IP Address';
 $lang['module_comments_title_pending_comments']     = 'Pending Comments';
 $lang['module_comments_title_published_comments']   = 'Published Comments';
 $lang['module_comments_title_window_edit_comment']  = 'Edit Comment';
+$lang['module_comments_title_window_new_comment']   = 'Write New Comment';
+$lang['module_comments_title_window_preview_comment']   = 'Preview Comment';
 
 
 //=> About Translations
@@ -50,6 +53,8 @@ $lang['module_comments_notification_comment_status_nchanged']   = 'Comment statu
 $lang['module_comments_notification_comment_deleted']           = 'Comment deleted successfully...';
 $lang['module_comments_notification_comment_ndeleted']          = 'Comment could not delete!';
 $lang['module_comments_notification_delete_question']           = 'Do you really want to delete selected comment?';
+$lang['module_comments_notification_comment_saved']             = 'Comment saved successfully...';
+$lang['module_comments_notification_comment_nsaved']            = 'Comment could not save!';
 $lang['module_comments_settings_title']			= 'Settings';
 $lang['module_comments_settings_text']			= 'The settings will be saved in the <var>/modules/Comments/config/config.php</var> file ';
 $lang['module_comments_setting_true_false']     = 'True / False option';
