@@ -40,7 +40,6 @@ class Comments_Tags extends TagManager {
         'comments:comments:updated'                 => 'tag_comments_simple_date',
         'comments:comments:admin'                   => 'tag_comments_simple_value',
         "comments:count"                            => "tag_count",
-        "comments:view"                             => "tag_view",
 
         "comments:comment_save"                     => "tag_comment_save", // Save new comment
         "comments:comments_count"                   => "tag_comments_count", // Return number of comments for an article
@@ -75,38 +74,6 @@ class Comments_Tags extends TagManager {
     {
         $str = $tag->expand();
         return $str;
-    }
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Loads the main Front module's view
-     * Because the parent tag (index) is expanded, the result of this method will be displayed
-     *
-     * @param FTL_Binding $tag
-     *
-     * @return mixed
-     */
-    public static function tag_view(FTL_Binding $tag)
-    {
-        $file = $tag->getAttribute('file');;
-
-        if (!is_null($file) && @file_exists(MODPATH.'Comments/views/' . $file . EXT))
-        {
-            $view = self::$ci->load->view($file, '', TRUE);
-
-            return $view;
-        }
-        if(!is_null($file))
-            return self::show_tag_error(
-                $tag,
-                'View file <b>"'. $file.EXT .'"</b> could not found.'
-            );
-        else
-            return self::show_tag_error(
-                $tag,
-                'Please specify <b>"the file name"</b>, which want to use.'
-            );
     }
 
     // ------------------------------------------------------------------------
