@@ -76,6 +76,7 @@
      * TinyEditor
      * issue: need to click it for active editor for without tabs
      */
+    /**
     ION.initTinyEditors(
         '.tinyEditor<?php echo $id_article_comment; ?>',
         '#commentForm<?php echo $id_article_comment; ?> .tinyComment',
@@ -84,7 +85,6 @@
             'height':120
         }
     );
-
-    $('content').fireEvent('click');
+     **/
 
 </script>
