@@ -5,6 +5,7 @@
     <input id="id_article" type="hidden" name="id_article" value="<?php echo $id_article; ?>" />
     <input id="ip" type="hidden" name="ip" value="<?php echo $ip; ?>" />
     <input id="status" type="hidden" name="status" value="<?php echo $status; ?>" />
+    <input id="created" type="hidden" name="created" value="<?php echo $created; ?>" />
 
     <!-- Author -->
     <dl class="small">
