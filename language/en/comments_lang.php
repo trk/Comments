@@ -7,6 +7,15 @@
 //=> Panel Translations
 $lang['module_comments_title']                  = 'Comment Module';
 $lang['module_comments_about']                  = 'Manage your comments';
+//=> Permission Translations
+$lang['module_comments_permission_warning']         = 'WARNING !';
+$lang['module_comments_permission_access']          = 'You don\'t have permission for use this module...';
+$lang['module_comments_permission_create']          = 'Sorry, you don\'t have permission for create comment...';
+$lang['module_comments_permission_edit']            = 'Sorry, you don\'t have permission for edit comment...';
+$lang['module_comments_permission_delete']          = 'Sorry, you don\'t have permission for delete comment...';
+$lang['module_comments_permission_view']            = 'Sorry, you don\'t have permission for view comment...';
+$lang['module_comments_permission_save']            = 'Sorry, you don\'t have permission for save comment...';
+$lang['module_comments_permission_status']          = 'Sorry, you don\'t have permission for change status comment...';
 
 //=> Title Translations
 $lang['module_comments_title_settings']         = 'Settings';
@@ -67,6 +76,26 @@ $lang['module_comments_label_status']               = '<b>Status : </b>';
 $lang['module_comments_label_created']              = '<b>Created : </b>';
 $lang['module_comments_label_updated']              = '<b>Updated : </b>';
 $lang['module_comments_label_admin']                = '<b>Admin : </b>';
+$lang['module_comments_label_submit_comment']	= 'Send Your Comment';
+//=> Form Translations
+$lang['module_comments_mail_admin_subject']                 = 'Someone writed a comment to your website.';
+$lang['module_comments_mail_user_subject']                  = 'Thank you, for your comment.';
+$lang['module_comments_form_thanks']                        = 'Thank you, %s';
+$lang['module_comments_form_error_title']                   = 'You have an error !';
+$lang['module_comments_form_error_message']                 = 'Please fill required filds.';
+$lang['module_comments_form_success_title']                 = 'Your comment successfully sent !';
+$lang['module_comments_form_success_message']               = 'Thank you for your comment, after your comment approved, we will publish your comment !';
+//=> Form => Yönetici e-posta çevirileri
+$lang['module_comments_form_admin_administrator']           = '<b>Website Administrator</b>';
+$lang['module_comments_form_admin_mail_subject']            = 'You have 1 new comment from your website !';
+$lang['module_comments_form_admin_subject']                 = '%s , you have a comment!';
+$lang['module_comments_form_admin_dear_site_administrator'] = 'Dear, Website Administrator';
+$lang['module_comments_form_admin_have_new_message']        = 'Someone wrote a comment to your website !';
+$lang['module_comments_form_admin_message']                 = '<b>%s</b> named author wrote a comment to your website, author email is <b>%s</b>, <b>%s</b> from your website.';
+//=> Form => Kullanıcı e-posta çevirileri
+$lang['module_comments_form_user_subject']                  = 'Thank your for leave a comment to our website.';
+$lang['module_comments_form_user_dear']                     = 'Dear %s';
+$lang['module_comments_form_user_message']                  = 'We received your comment, after we check your comment, we will publish your comment.';
 $lang['module_comments_settings_title']			= 'Settings';
 $lang['module_comments_settings_text']			= 'The settings will be saved in the <var>/modules/Comments/config/config.php</var> file ';
 $lang['module_comments_setting_true_false']     = 'True / False option';
@@ -89,6 +118,7 @@ $lang['module_comments_ip'] 					= 'IP';
 $lang['module_comments_label_no_mod_admin']     = 'Comes from no admin';
 $lang['module_comments_label_mod_admin'] 		= 'Comes admin';
 $lang['module_comments_label_comment'] 			= 'Comment';
+$lang['module_comments_label_submit_comment']   = 'Send your comment';
 
 //admin panel
 $lang['module_comments_options_title'] 			= 'Comments';

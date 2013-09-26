@@ -87,9 +87,17 @@ class Comments extends Module_Admin
     /**
      * Index of comment module
      */
-    public function index() {
+    public function index()
+    {
 
-        $this->output($this->controller_folder . 'index');
+        if(Authority::can('access', 'module/comments/admin'))
+        {
+            $this->output($this->controller_folder . 'index');
+        }
+        else
+        {
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_access'));
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -102,30 +110,37 @@ class Comments extends Module_Admin
      */
     function article_comments($id_article = FALSE, $rel = FALSE)
     {
-        // If we have article id and rel data get comments list
-        if($id_article != FALSE && $rel != FALSE)
+        if(Authority::can('access', 'module/comments/admin'))
         {
-            // Get article data
-            $this->template['article'] = $this->article_model->get_by_id($id_article);
+            // If we have article id and rel data get comments list
+            if($id_article != FALSE && $rel != FALSE)
+            {
+                // Get article data
+                $this->template['article'] = $this->article_model->get_by_id($id_article);
 
-            // Get article lang data
-            $this->article_model->feed_lang_template($id_article, $this->template['article']);
+                // Get article lang data
+                $this->article_model->feed_lang_template($id_article, $this->template['article']);
 
-            // Set article and page id for go back to article edit : id_article.id_page
-            $this->template['rel'] = $rel;
+                // Set article and page id for go back to article edit : id_article.id_page
+                $this->template['rel'] = $rel;
 
-            // Send data to view file
-            $this->output($this->controller_folder . 'comments');
+                // Send data to view file
+                $this->output($this->controller_folder . 'comments');
+            }
+            // Return Error Notification Message
+            else
+            {
+                $this->callback = array(
+                    'fn' => 'ION.notification',
+                    'args' => array('error', lang('module_comments_notification_cant_get_article_id'))
+                );
+
+                $this->response();
+            }
         }
-        // Return Error Notification Message
         else
         {
-            $this->callback = array(
-                'fn' => 'ION.notification',
-                'args' => array('error', lang('module_comments_notification_cant_get_article_id'))
-            );
-
-            $this->response();
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_access'));
         }
     }
 
@@ -136,23 +151,30 @@ class Comments extends Module_Admin
      */
     function get_list()
     {
-        // Get posted data
-        $id_article = $this->input->post('id_article');
-        $status     = $this->input->post('status');
+        if(Authority::can('access', 'module/comments/admin'))
+        {
+            // Get posted data
+            $id_article = $this->input->post('id_article');
+            $status     = $this->input->post('status');
 
-        // Prepare where
-        $where      = array(
-            'id_article' => $id_article,
-            'status' => $status
-        );
+            // Prepare where
+            $where      = array(
+                'id_article' => $id_article,
+                'status' => $status
+            );
 
-        // Send data to template
-        $this->template['status']           = $status;
-        $this->template['comment_type']     = (($status == 0) ? 'pending' : 'published');
+            // Send data to template
+            $this->template['status']           = $status;
+            $this->template['comment_type']     = (($status == 0) ? 'pending' : 'published');
 
-        $this->template['article_comments'] = $this->{$this->default_model}->get_list($where);
+            $this->template['article_comments'] = $this->{$this->default_model}->get_list($where);
 
-        $this->output($this->controller_folder . 'list');
+            $this->output($this->controller_folder . 'list');
+        }
+        else
+        {
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_access'));
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -162,19 +184,26 @@ class Comments extends Module_Admin
      */
     public function get_form($id_article)
     {
-        $this->{$this->default_model}->feed_blank_template($this->template);
+        if(Authority::can('create', 'module/comments/admin'))
+        {
+            $this->{$this->default_model}->feed_blank_template($this->template);
 
-        $user = User()->get_user();
+            $user = User()->get_user();
 
-        // Send data to view file
-        $this->template['id_article']   = $id_article;
-        $this->template['site']         = base_url();
-        $this->template['author']       = $user['screen_name'];
-        $this->template['email']        = $user['email'];
-        $this->template['status']       = 1;
-        $this->template['ip']           = $this->{$this->default_model}->get_client_ip();
+            // Send data to view file
+            $this->template['id_article']   = $id_article;
+            $this->template['site']         = base_url();
+            $this->template['author']       = $user['screen_name'];
+            $this->template['email']        = $user['email'];
+            $this->template['status']       = 1;
+            $this->template['ip']           = $this->{$this->default_model}->get_client_ip();
 
-        $this->output($this->controller_folder . 'comment');
+            $this->output($this->controller_folder . 'comment');
+        }
+        else
+        {
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_create'));
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -186,9 +215,16 @@ class Comments extends Module_Admin
      */
     public function edit($id_article_comment)
     {
-        $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
+        if(Authority::can('edit', 'module/comments/admin'))
+        {
+            $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
 
-        $this->output($this->controller_folder . 'comment');
+            $this->output($this->controller_folder . 'comment');
+        }
+        else
+        {
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_edit'));
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -200,9 +236,16 @@ class Comments extends Module_Admin
      */
     public function view($id_article_comment)
     {
-        $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
+        if(Authority::can('view', 'module/comments/admin'))
+        {
+            $this->{$this->default_model}->feed_template($id_article_comment, $this->template);
 
-        $this->output($this->controller_folder . 'view');
+            $this->output($this->controller_folder . 'view');
+        }
+        else
+        {
+            self::_alert('danger', lang('module_comments_permission_warning'), lang('module_comments_permission_view'));
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -212,63 +255,73 @@ class Comments extends Module_Admin
      */
     function save()
     {
-
-        if($this->_check_before_save() == TRUE)
+        if(Authority::can('save', 'module/comments/admin'))
         {
-            $id_article = $this->input->post('id_article');
+            if($this->_check_before_save() == TRUE)
+            {
+                $id_article = $this->input->post('id_article');
 
-            // Clear the cache
-            Cache()->clear_cache();
+                // Clear the cache
+                Cache()->clear_cache();
 
-            // Prepare Form Datas
-            $this->_prepare_data();
+                // Prepare Form Datas
+                $this->_prepare_data();
 
-            // Save data
-            $this->{$this->default_model}->save($this->data);
+                // Save data
+                $this->{$this->default_model}->save($this->data);
 
-            // Send Success Message
+                // Send Success Message
+                $this->callback = array(
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 0
+                            ),
+                            array(
+                                'update' => 'pendingCommentsContainer'
+                            )
+                        ),
+                    ),
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 1
+                            ),
+                            array(
+                                'update' => 'publishedCommentsContainer'
+                            )
+                        ),
+                    ),
+                    // Send success message
+                    array(
+                        'fn' => 'ION.notification',
+                        'args' => array('success', lang('module_comments_notification_comment_saved'))
+                    )
+                );
+
+                $this->response();
+            }
+
+            else
+            {
+                $this->error(lang('module_comments_notification_comment_nsaved'));
+            }
+        }
+        else
+        {
             $this->callback = array(
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 0
-                        ),
-                        array(
-                            'update' => 'pendingCommentsContainer'
-                        )
-                    ),
-                ),
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 1
-                        ),
-                        array(
-                            'update' => 'publishedCommentsContainer'
-                        )
-                    ),
-                ),
-                // Send success message
-                array(
-                    'fn' => 'ION.notification',
-                    'args' => array('success', lang('module_comments_notification_comment_saved'))
-                )
+                'fn' => 'ION.notification',
+                'args' => array('error', lang('module_comments_permission_save'))
             );
 
             $this->response();
         }
-
-        else
-        {
-            $this->error(lang('module_comments_notification_comment_nsaved'));
-        }
-
     }
 
     // ------------------------------------------------------------------------
@@ -280,58 +333,88 @@ class Comments extends Module_Admin
      */
     function delete($id_article_comment, $id_article)
     {
-        // Clear the cache
-        Cache()->clear_cache();
-
-        if ($this->{$this->default_model}->delete($id_article_comment) > 0)
+        if(Authority::can('delete', 'module/comments/admin'))
         {
-            // Reload container after change status, because we have tabs need to move item
-            $this->callback = array(
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 0
-                        ),
-                        array(
-                            'update' => 'pendingCommentsContainer'
-                        )
-                    ),
-                ),
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 1
-                        ),
-                        array(
-                            'update' => 'publishedCommentsContainer'
-                        )
-                    ),
-                ),
-                // Send success message
-                array(
-                    'fn' => 'ION.notification',
-                    'args' => array('success', lang('module_comments_notification_comment_deleted'))
-                )
-            );
+            // Clear the cache
+            Cache()->clear_cache();
 
-            $this->response();
+            if ($this->{$this->default_model}->delete($id_article_comment) > 0)
+            {
+                // Reload container after change status, because we have tabs need to move item
+                $this->callback = array(
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 0
+                            ),
+                            array(
+                                'update' => 'pendingCommentsContainer'
+                            )
+                        ),
+                    ),
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 1
+                            ),
+                            array(
+                                'update' => 'publishedCommentsContainer'
+                            )
+                        ),
+                    ),
+                    // Send success message
+                    array(
+                        'fn' => 'ION.notification',
+                        'args' => array('success', lang('module_comments_notification_comment_deleted'))
+                    )
+                );
+
+                $this->response();
+            }
+            else
+            {
+                // Send error message
+                $this->callback = array(
+                    'fn' => 'ION.notification',
+                    'args' => array('error', lang('module_comments_notification_comment_ndeleted'))
+                );
+
+                $this->response();
+            }
         }
         else
         {
-            // Send error message
             $this->callback = array(
                 'fn' => 'ION.notification',
-                'args' => array('error', lang('module_comments_notification_comment_ndeleted'))
+                'args' => array('error', lang('module_comments_permission_delete'))
             );
 
             $this->response();
         }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Get Alert View
+     *
+     * @param bool $type types :: success,danger,warning,info
+     * @param bool $title
+     * @param bool $text
+     */
+    function _alert($type = FALSE, $title = FALSE, $text = FALSE)
+    {
+        $this->template['type'] = (($title != FALSE) ? $type : 'danger');
+        $this->template['title'] = (($title != FALSE) ? '<h4>' . $title . '</h4>' : '');
+        $this->template['text'] = (($text != FALSE) ? '<p>' . $text . '</p>' : '');
+
+        $this->output($this->controller_folder . 'alert');
     }
 
     // ------------------------------------------------------------------------
@@ -344,56 +427,68 @@ class Comments extends Module_Admin
      */
     public function switch_status($id_article_comment, $id_article)
     {
-        // Clear the cache
-        Cache()->clear_cache();
-
-        // Change item status
-        $status = $this->{$this->default_model}->switch_status($id_article_comment);
-
-        if($status == 0 || $status == 1)
+        if(Authority::can('status', 'module/comments/admin'))
         {
-            // Reload container after change status, because we have tabs need to move item
-            $this->callback = array(
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 0
-                        ),
-                        array(
-                            'update' => 'pendingCommentsContainer'
-                        )
-                    ),
-                ),
-                array(
-                    'fn' => 'ION.HTML',
-                    'args' => array(
-                        $this->controller_url . 'get_list',
-                        array(
-                            'id_article' => $id_article,
-                            'status' => 1
-                        ),
-                        array(
-                            'update' => 'publishedCommentsContainer'
-                        )
-                    ),
-                ),
-                // Send success message
-                array(
-                    'fn' => 'ION.notification',
-                    'args' => array('success', lang('module_comments_notification_comment_status_changed'))
-                )
-            );
+            // Clear the cache
+            Cache()->clear_cache();
 
-            $this->response();
+            // Change item status
+            $status = $this->{$this->default_model}->switch_status($id_article_comment);
+
+            if($status == 0 || $status == 1)
+            {
+                // Reload container after change status, because we have tabs need to move item
+                $this->callback = array(
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 0
+                            ),
+                            array(
+                                'update' => 'pendingCommentsContainer'
+                            )
+                        ),
+                    ),
+                    array(
+                        'fn' => 'ION.HTML',
+                        'args' => array(
+                            $this->controller_url . 'get_list',
+                            array(
+                                'id_article' => $id_article,
+                                'status' => 1
+                            ),
+                            array(
+                                'update' => 'publishedCommentsContainer'
+                            )
+                        ),
+                    ),
+                    // Send success message
+                    array(
+                        'fn' => 'ION.notification',
+                        'args' => array('success', lang('module_comments_notification_comment_status_changed'))
+                    )
+                );
+
+                $this->response();
+            }
+            else {
+                // Send error message
+                $this->callback = array(
+                    'fn' => 'ION.notification',
+                    'args' => array('error', lang('module_comments_notification_comment_status_nchanged'))
+                );
+
+                $this->response();
+            }
         }
-        else {
-            // Send error message
+        else
+        {
             $this->callback = array(
                 'fn' => 'ION.notification',
-                'args' => array('error', lang('module_comments_notification_comment_status_nchanged'))
+                'args' => array('error', lang('module_comments_permission_status'))
             );
 
             $this->response();
@@ -451,6 +546,7 @@ class Comments extends Module_Admin
 
     // ------------------------------------------------------------------------
 
+
     /**
      * Adds "Addons" to core panels
      * When set, this function will be automatically called for each core panel.
@@ -483,6 +579,9 @@ class Comments extends Module_Admin
 
         // Send the article|page to the view
         $data['article'] = $object;
+
+        if(empty($data['article']['id_article']))
+            return;
 
         // Load comments model
         $CI->load->model('comments_model', '', TRUE);

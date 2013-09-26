@@ -97,7 +97,10 @@ class Comments_Tags extends TagManager {
         // @TODO Get user and if user is admin show all comments
         // $user = User()->get_user();
 
-        $where['status']        = 1;
+        $user = USER()->get_user();
+
+        if(empty($user) && ($user['role_code'] != 'role_code' || $user['role_code'] != 'role_code'))
+            $where['status']        = 1;
 
         // Comments array
         $article_comments = self::$ci->comments_model->get_list($where);
@@ -188,37 +191,6 @@ class Comments_Tags extends TagManager {
         // return '';
     }
 
-    // ------------------------------------------------------------------------
-    // @TODO Check under lines!!
-    // ------------------------------------------------------------------------
-
-    /*     * *********************************************************************
-     * Save the new entry, if "POST" detected
-     *
-     */
-
-    public static function tag_comment_save(FTL_Binding $tag) {
-        // get CodeIgniter instance
-        $CI = & get_instance();
-
-        // Comment was posted, saving it
-        if ($content = $CI->input->post('content')) {
-            // Loads the comments module model
-            if (!isset($CI->comment_model))
-                $CI->load->model('comments_comment_model', 'comment_model', true);
-
-            // Save comment 
-            if ($CI->comment_model->insert_comment($tag->locals->article['id_article']))   
-                $CI->locals->showSuccessFlashMessage = true;
-            else
-                $CI->locals->showErrorFlashMessage = true;
-        }
-
-
-        return;
-    }
-
-
     /*     * **********************************************************************
      * Display comment's author's gravatar
      *
@@ -236,103 +208,5 @@ class Comments_Tags extends TagManager {
 
         $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($tag->locals->comment["email"]))) . "?s=80&d=" . $default_avatar;
         return $grav_url;
-    }
-
-    /*     * ***********************************************************************
-     * Display toolbar for admin : allow to configure comments for an article
-     *
-     */
-
-    public static function tag_comments_admin(FTL_Binding $tag) {
-
-        $CI = & get_instance();
-        $allowed = Authority::can('access', 'admin');
-
-// Display tag content & apply modifications if needed (only if the user is member of "admins+" group)
-        if ($allowed) {
-
-            // Loading comments model if needed
-            if (!isset($CI->comment_model))
-                $CI->load->model('comments_comment_model', 'comment_model', true);
-
-            // Checking if comments should be enabled/disabled (POST) should be done
-            if ($CI->input->post("comments_article_update") == "1") {
-                $tag->locals->article['comment_allow'] = $CI->comment_model->update_article($tag->locals->article['id_article']);
-                $tag->locals->showFlashMessage = true;
-                //$CI->locals->showFlashMessage = true;
-                //$CI->locals->showSuccessFlashMessage = true;
-            }
-
-            if ($CI->input->post("comment_delete") == "1") {
-                $CI->comment_model->delete($CI->input->post("id_article_comment"));
-                $tag->locals->showFlashMessage = true;
-            }
-
-            return $tag->expand();
-        }
-    }
-
-    /*     * *************************************************************************
-     * Display a flash message to inform admin that action was completed
-     *
-     */
-
-    public static function tag_message(FTL_Binding $tag) {
-
-        if ($tag->locals->showFlashMessage == true) {
-            $class = isset($tag->attr['class']) ? ' class="' . $tag->attr['class'] . '"' : '';
-            $id = isset($tag->attr['id']) ? ' id="' . $tag->attr['id'] . '"' : '';
-            $tag_open = isset($tag->attr['tag']) ? "<" . $tag->attr['tag'] . $id . $class . ">" : '';
-            $tag_close = isset($tag->attr['tag']) ? "</" . $tag->attr['tag'] . ">" : '';
-
-            return $tag_open . $tag->expand() . $tag_close;
-        }
-    }
-
-    /*     * *************************************************************************
-     * Display a flash message to inform user that action was completed
-     *
-     */
-
-    public static function tag_success_message(FTL_Binding $tag) {
-        $CI = & get_instance();
-
-        // Build flash message "success"
-        if (isset($CI->locals->showSuccessFlashMessage) && $CI->locals->showSuccessFlashMessage == true) {
-            $class = isset($tag->attr['class']) ? ' class="' . $tag->attr['class'] . '"' : '';
-            $id = isset($tag->attr['id']) ? ' id="' . $tag->attr['id'] . '"' : '';
-            $tag_open = isset($tag->attr['tag']) ? "<" . $tag->attr['tag'] . $id . $class . ">" : '';
-            $tag_close = isset($tag->attr['tag']) ? "</" . $tag->attr['tag'] . ">" : '';
-
-            return $tag_open . $tag->expand() . $tag_close;
-        }
-    }
-
-    /*     * *************************************************************************
-     * Display a flash error message to inform user that action wasn't completed
-     *
-     */
-
-    public static function tag_error_message(FTL_Binding $tag) {
-        $CI = & get_instance();
-
-        // Build flash message "success"
-        if (isset($CI->locals->showErrorFlashMessage) && $CI->locals->showErrorFlashMessage == true) {
-            $class = isset($tag->attr['class']) ? ' class="' . $tag->attr['class'] . '"' : '';
-            $id = isset($tag->attr['id']) ? ' id="' . $tag->attr['id'] . '"' : '';
-            $tag_open = isset($tag->attr['tag']) ? "<" . $tag->attr['tag'] . $id . $class . ">" : '';
-            $tag_close = isset($tag->attr['tag']) ? "</" . $tag->attr['tag'] . ">" : '';
-
-            return $tag_open . $tag->expand() . $tag_close;
-        }
-    }
-
-    /*     * *************************************************************************
-     * Expands the tag (display tag content) if comments are allowed
-     *
-     */
-    public static function tag_comments_allowed(FTL_Binding $tag) {
-        $result = $tag->locals->article['comment_allow'] == "1" ? $result = $tag->expand() : $result = "";
-        return $result;
     }
 }

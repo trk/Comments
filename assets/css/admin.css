@@ -126,3 +126,44 @@ table.table-hover tbody > tr:hover > th {
 .label-danger[href]:focus {
     background-color: #c84c49;
 }
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert h4 {
+    margin-top: 0;
+    color: inherit;
+}
+.alert .alert-link {
+    font-weight: bold;
+}
+.alert > p,
+.alert > ul {
+    margin-bottom: 0;
+}
+.alert > p + p {
+    margin-top: 5px;
+}
+
+.alert-success {
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #cbd9c5;
+}
+.alert-info {
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #c6d8e1;
+}
+.alert-warning {
+    color: #c09853;
+    background-color: #fcf8e3;
+    border-color: #e4e1d1;
+}
+.alert-danger {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #dccacb;
+}

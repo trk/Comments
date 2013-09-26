@@ -9,9 +9,22 @@ $config['module']['comments'] = array
     'version'       => "0.9",
     'uri'           => 'comments',
     'has_admin'     => TRUE,
-    'has_frontend'  => FALSE,
-
-    // The default resource : 'access' enought for user roles
+    'has_frontend'  => TRUE,
+    'resources'     => array(
+        'admin'     => array(
+            'title' => 'Admin Panel / Yönetim Paneli',
+            'actions' => 'create,save,edit,delete,status,view'
+        ),
+//        'admin/menu' => array(
+//            'title'     => 'Menu Items / Menü Öğeleri',
+//            'actions'   => 'create,save,edit,delete,status'
+//        ),
+        'frontend'  => array
+        (
+            'title'     => 'Client Side / Kullanıcı Tarafı',
+            'actions'   => 'create,delete,status'
+        )
+    )
 );
 
 return $config['module']['comments'];

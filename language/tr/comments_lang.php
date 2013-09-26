@@ -8,6 +8,16 @@
 $lang['module_comments_title']                      = 'Yorum Modülü';
 $lang['module_comments_about']                      = 'İnternet sayfasına yazılan yorumları yönetin';
 
+//=> İzin Çevirileri
+$lang['module_comments_permission_warning']         = 'UYARI !';
+$lang['module_comments_permission_access']          = 'Bu modülü kullanma yetkiniz yok...';
+$lang['module_comments_permission_create']          = 'Üzgünüz yorum oluşturma yetkiniz yok...';
+$lang['module_comments_permission_edit']            = 'Üzgünüz yorum düzenleme yetkiniz yok...';
+$lang['module_comments_permission_delete']          = 'Üzgünüz yorum silme yetkiniz yok...';
+$lang['module_comments_permission_view']            = 'Üzgünüz yorum görüntüleme yetkiniz yok...';
+$lang['module_comments_permission_save']            = 'Üzgünüz yorum kaydetme yetkiniz yok...';
+$lang['module_comments_permission_status']          = 'Üzgünüz yorum durumunu değiştirme yetkiniz yok...';
+
 //=> Başlık Çevirileri
 $lang['module_comments_title_settings']             = 'Ayarlar';
 $lang['module_comments_title_root']                 = 'Ana Dizin';
@@ -69,6 +79,27 @@ $lang['module_comments_label_created']              = 'Oluşturulma';
 $lang['module_comments_label_updated']              = 'Güncelleme';
 $lang['module_comments_label_admin']                = 'Admin';
 
+//=> Form Translations
+$lang['module_comments_mail_admin_subject']                 = 'İnternet sitenize yeni bir yorum yazıldı.';
+$lang['module_comments_mail_user_subject']                  = 'Yorumunuz için teşekkür ederiz.';
+$lang['module_comments_form_thanks']                        = 'Teşekkürler, %s';
+$lang['module_comments_form_error_title']                   = 'Bir hata var !';
+$lang['module_comments_form_error_message']                 = 'Lütfen doldurulması zorunlu alanları doldurunuz.';
+$lang['module_comments_form_success_title']                 = 'Yorumunuz başarıyla gönderildi !';
+$lang['module_comments_form_success_message']               = 'Yorumunuz için teşekkür ederiz, yorumunuz onaylandıktan sonra yayınlanacaktır !';
+//=> Form => Yönetici e-posta çevirileri
+$lang['module_comments_form_admin_administrator']           = '<b>Site Yöneticisi</b>';
+$lang['module_comments_form_admin_mail_subject']            = 'İnternet sitenize yapılan 1 yorum var !';
+$lang['module_comments_form_admin_subject']                 = '%s , sayfanıza yapılan yorum var!';
+$lang['module_comments_form_admin_dear_site_administrator'] = 'Sayın, Site Yöneticisi';
+$lang['module_comments_form_admin_have_new_message']        = 'İnternet sitenize yapılan bir adet yorumunuz var !';
+$lang['module_comments_form_admin_message']                 = '<b>%s</b> adlı yazar internet sayfasına <b>%s</b> e-posta adresi ile bir yorum yazdı, <b>%s</b> internet sitenizden.';
+//=> Form => Kullanıcı e-posta çevirileri
+$lang['module_comments_form_user_subject']                  = 'İnternet sayfamıza yorum yaptığınız için teşekkür ederiz.';
+$lang['module_comments_form_user_dear']                     = 'Sayın %s';
+$lang['module_comments_form_user_message']                  = 'Yapmış olduğunuz yorum elimize ulaştı, kontrol edildikten sonra aksi bir durum olmadıkça yorumunuz yayınlanacaktır.';
+
+
 $lang['module_comments_settings_title']			= 'Ayarlar';
 $lang['module_comments_settings_text']			= 'Ayarların kayıt edileceği dosya : <var>/modules/Comments/config/config.php</var> ';
 $lang['module_comments_setting_true_false']     = 'TRUE / FALSE seçeneği';
@@ -91,6 +122,7 @@ $lang['module_comments_ip'] 					= 'IP';
 $lang['module_comments_label_no_mod_admin']     = 'Comes from no admin';
 $lang['module_comments_label_mod_admin'] 		= 'Comes admin';
 $lang['module_comments_label_comment'] 			= 'Yorum';
+$lang['module_comments_label_submit_comment']   = 'Yorumunu Gönder';
 
 //admin panel
 $lang['module_comments_options_title'] 			= 'Yorumlar';

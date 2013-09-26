@@ -66,6 +66,37 @@ class Comments_model extends Base_model
     }
 
     /**
+     * If user connected get user informations
+     * => author
+     * => email
+     *
+     * @return array|bool
+     */
+    function _get_user()
+    {
+        if(User()->logged_in())
+        {
+            $connected_user = User()->get_user();
+
+            $user = array(
+                'author' => '',
+                'email' => $connected_user['email']
+            );
+
+            if($connected_user['firstname'] != '' || $connected_user['lastname'] != '')
+                $user['author'] = $connected_user['firstname'] . ' ' . $connected_user['lastname'];
+            if($connected_user['screen_name'] != '' && ($connected_user['firstname'] == '' || $connected_user['lastname'] == ''))
+                $user['author'] = $connected_user['screen_name'];
+            if($connected_user['screen_name'] == '' && ($connected_user['firstname'] == '' || $connected_user['lastname'] == ''))
+                $user['author'] = $connected_user['username'];
+
+            return $user;
+        }
+
+        return FALSE;
+    }
+
+    /**
      * Set an item online / offline depending on its current status
      *
      * @param	int			item ID
