@@ -45,14 +45,14 @@ $lang['module_comments_button_root']            = 'Ana Dizin';
 $lang['module_comments_button_settings']        = 'Ayarlar';
 $lang['module_comments_button_back_to_article'] = 'Makaleye geri dön';
 $lang['module_comments_button_new_comments']    = 'Yeni Yorum Yaz';
-
-//=> Etiket Çevirileri
-
+$lang['module_comments_button_save_date']       = 'Tarihi Kaydet';
 
 //=> Yardım Çevirileri
-$lang['module_comments_help_if_checked_comments_will_allowed']  = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
-$lang['module_comments_help_click_here_for_manage_comments']    = 'Yorumları yönetmek için buraya tıklayın.';
-$lang['module_comments_help_click_here_for_go_back_to_article'] = 'Makaleye geri dönmek için burayı tıklayın.';
+$lang['module_comments_help_if_checked_comments_will_allowed']      = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
+$lang['module_comments_help_if_checked_comments_will_auto_valide']  = 'Eğer işaretli ise, bu makale için yazılan yorumlara otomatik olarak izin verilecek.';
+$lang['module_comments_help_comment_expire']                        = 'Eğer bir tarih belirlerseniz, belirtilen tarihten sonra makale için yorum yazımı otomatik olarak kapatılacaktır.';
+$lang['module_comments_help_click_here_for_manage_comments']        = 'Yorumları yönetmek için buraya tıklayın.';
+$lang['module_comments_help_click_here_for_go_back_to_article']     = 'Makaleye geri dönmek için burayı tıklayın.';
 
 //=> Bildiri Çevirileri
 $lang['module_comments_notification_cant_get_article_id']       = 'Makale ID sine erişilemiyor...';
@@ -76,7 +76,9 @@ $lang['module_comments_label_status']               = 'Durum';
 $lang['module_comments_label_created']              = 'Oluşturulma';
 $lang['module_comments_label_updated']              = 'Güncelleme';
 $lang['module_comments_label_admin']                = 'Yönetici';
-$lang['module_comments_label_allow_comments']   = 'Yorumlara İzin Ver';
+$lang['module_comments_label_allow_comments']           = 'Yorumlara İzin Ver';
+$lang['module_comments_label_auto_validate_comments']   = 'Otomatik Onay Ver';
+$lang['module_comments_label_comment_expire']           = 'Bitiş Tarihi';
 $lang['module_comments_label_published']        = 'Yayınlanan';
 $lang['module_comments_label_pending']          = 'Onay Bekleyen';
 $lang['module_comments_label_total']            = 'Toplam';

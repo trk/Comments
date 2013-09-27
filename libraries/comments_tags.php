@@ -34,6 +34,7 @@ class Comments_Tags extends TagManager {
         'comments:list:admin'               => 'tag_comments_simple_value',
         "comments:count"                    => "tag_count",
         "comments:gravatar"                 => "tag_gravatar",
+        "comments:is_allowed"               => "tag_is_allowed",
         "comments:can"                      => "tag_can",
         "comments:logged"                   => "tag_logged"
     );
@@ -218,6 +219,25 @@ class Comments_Tags extends TagManager {
     // ------------------------------------------------------------------------
 
     /**
+     * Check comment is allowed & Comment Expire
+     *
+     * @param FTL_Binding $tag
+     *
+     * @return string
+     */
+    public static function tag_is_allowed(FTL_Binding $tag)
+    {
+        $article = $tag->get('article');
+
+        if ($article['comment_allow'] == 0 || $article['comment_expire'] > date('Y-m-d H:i:s') || $article['comment_expire'] == date('Y-m-d H:i:s'))
+            return '';
+        else
+            return $tag->expand();
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
      * Check user permissions
      *
      * @param FTL_Binding $tag
@@ -238,7 +258,7 @@ class Comments_Tags extends TagManager {
 //            else { return ''; }
 //        }
 
-        log_message('error', 'USER //=> ' . User()->logged_in());
+//        log_message('error', 'USER //=> ' . User()->logged_in());
 
         if (! empty($role) && Authority::can($role, 'module/comments/admin') == $is)
         {

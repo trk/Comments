@@ -7,6 +7,7 @@
 //=> Panel Translations
 $lang['module_comments_title']                  = 'Comment Module';
 $lang['module_comments_about']                  = 'Manage your comments';
+
 //=> Permission Translations
 $lang['module_comments_permission_warning']         = 'WARNING !';
 $lang['module_comments_permission_access']          = 'You don\'t have permission for use this module...';
@@ -18,6 +19,7 @@ $lang['module_comments_permission_save']            = 'Sorry, you don\'t have pe
 $lang['module_comments_permission_status']          = 'Sorry, you don\'t have permission for change status comment...';
 
 //=> Title Translations
+$lang['module_comments_title_comments_form']        = 'Comments';
 $lang['module_comments_title_settings']         = 'Settings';
 $lang['module_comments_title_root']             = 'Root';
 $lang['module_comments_title_comments_for_selected_article']    = 'Comments For Article - %s';
@@ -43,9 +45,12 @@ $lang['module_comments_button_root']            = 'Root';
 $lang['module_comments_button_settings']        = 'Settings';
 $lang['module_comments_button_back_to_article'] = 'Back to article';
 $lang['module_comments_button_new_comments']    = 'Write New Comment';
+$lang['module_comments_button_save_date']       = 'Save Date';
 
 //=> Help Translations
 $lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';
+$lang['module_comments_help_if_checked_comments_will_auto_valide']  = 'If checked, visitor comments will auto validate.';
+$lang['module_comments_help_comment_expire']                        = 'If you ser a date, after this date comment write won't allowed.';
 $lang['module_comments_help_click_here_for_manage_comments']    = 'Click here for manage comments.';
 $lang['module_comments_help_click_here_for_go_back_to_article'] = 'Click here for go back to article.';
 
@@ -58,6 +63,7 @@ $lang['module_comments_notification_comment_ndeleted']          = 'Comment could
 $lang['module_comments_notification_delete_question']           = 'Do you really want to delete selected comment?';
 $lang['module_comments_notification_comment_saved']             = 'Comment saved successfully...';
 $lang['module_comments_notification_comment_nsaved']            = 'Comment could not save!';
+
 //=> Label Translations
 $lang['module_comments_label_id_article_comment']   = 'Comment ID';
 $lang['module_comments_label_id_article']           = 'Article ID';
@@ -71,10 +77,12 @@ $lang['module_comments_label_created']              = 'Created';
 $lang['module_comments_label_updated']              = 'Updated';
 $lang['module_comments_label_admin']                = 'Admin';
 $lang['module_comments_label_allow_comments']   = 'Allow Comments';
+$lang['module_comments_label_auto_validate_comments']   = 'Auto Validate';
+$lang['module_comments_label_comment_expire']           = 'Expire Date';
 $lang['module_comments_label_published']            = 'Published';
 $lang['module_comments_label_pending']              = 'Pending';
 $lang['module_comments_label_total']                = 'Total';
-$lang['module_comments_label_submit_comment']	= 'Send Your Comment';
+$lang['module_comments_label_total_comments']   = 'Total <span class="badge">%s</span> comments.';
 //=> Form Translations
 $lang['module_comments_mail_admin_subject']                 = 'Someone writed a comment to your website.';
 $lang['module_comments_mail_user_subject']                  = 'Thank you, for your comment.';

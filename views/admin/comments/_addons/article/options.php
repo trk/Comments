@@ -15,6 +15,32 @@
             </dl>
             <dl class="small compact">
                 <dt>
+                    <label title="<?php echo lang('module_comments_help_if_checked_comments_will_auto_valide'); ?>" for="comment_autovalid"><?php echo lang('module_comments_label_auto_validate_comments'); ?></label>
+                </dt>
+                <dd>
+                    <input id="comment_autovalid" name="comment_autovalid" type="checkbox" class="inputcheckbox" <?php if ($article['comment_allow'] == 1):?> checked="checked" <?php endif;?> value="1">
+                </dd>
+            </dl>
+            <dl class="small compact">
+                <dt>
+                    <label for="comment_expire" title="<?php echo lang('module_comments_help_comment_expire'); ?>"><?php echo lang('module_comments_label_comment_expire'); ?></label>
+                </dt>
+                <dd>
+                    <input id="comment_expire" name="comment_expire" type="text" class="inputtext w120 date"  value="<?php echo humanize_mdate($article['comment_expire'], Settings::get('date_format'). ' %H:%i:%s'); ?>" />
+                    <a class="icon clearfield date" data-id="comment_expire"></a>
+                </dd>
+            </dl>
+            <!-- Submit button  -->
+            <dl class="small compact mb10">
+                <dt>&#160;</dt>
+                <dd>
+                    <a class="button submit" id="comment_expire_save">
+                        <?php echo lang('module_comments_button_save_date'); ?>
+                    </a>
+                </dd>
+            </dl>
+            <dl class="small compact">
+                <dt>
                     <label><span class="label label-success"><?php echo lang('module_comments_label_published'); ?></span></label>
                 </dt>
                 <dd>
@@ -37,7 +63,7 @@
                    <span class="badge badge-info"><?php echo $count['all']; ?></span>
                 </dd>
             </dl>
-            <dl class="small compact">
+            <dl class="small compact last">
                 <dt>
                     <label></label>
                 </dt>
@@ -61,6 +87,19 @@
         {
             var value = (this.checked) ? '1' : '0';
             ION.JSON('article/update_field', {'field': 'comment_allow', 'value': value, 'id_article': $('id_article').value});
+        });
+
+        $('comment_autovalid').addEvent('click', function(e)
+        {
+            var value = (this.checked) ? '1' : '0';
+            ION.JSON('article/update_field', {'field': 'comment_autovalid', 'value': value, 'id_article': $('id_article').value});
+        });
+
+        $('comment_expire_save').addEvent('click', function(e)
+        {
+//            e.stop();
+            var value = $('comment_expire').value;
+            ION.JSON('article/update_field', {'field': 'comment_expire', 'value': value, type: 'date', 'id_article': $('id_article').value});
         });
 
         /**
