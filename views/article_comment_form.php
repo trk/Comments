@@ -2,6 +2,7 @@
 
     <div class="col-xs-12 col-sm-12">
 
+        <hr />
         <div class="clearfix"></div>
 
         <ion:form:comment:validation:success is="true">
@@ -15,6 +16,9 @@
             <div class="alert alert-danger">
                 <ion:lang key="module_comments_form_error_title" tag="h4" />
                 <ion:lang key="module_comments_form_error_message" tag="p" />
+                <p>
+                    <ion:form:comment:validation:error delimeter="p" />
+                </p>
             </div>
         </ion:form:comment:validation:error>
 
@@ -26,16 +30,17 @@
             <fieldset>
 
                 <ion:user:logged is="true">
+
                     <!-- Input::Hidden : Author -->
-                    <input type="hidden" name="author" value="<ion:user:firstname /> <ion:user:lastname />" />
+                    <input type="hidden" name="author" value="<ion:firstname /> <ion:lastname />" />
                     <!-- Input::Hidden : Email -->
-                    <input type="hidden" name="email" value="<ion:user:email />" />
+                    <input type="hidden" name="email" value="<ion:email />" />
 
                     <!-- Input : Author -->
                     <div class="form-group">
                         <label for="author" class="col-lg-3 control-label"><ion:lang key="module_comments_label_author" /></label>
                         <div class="col-lg-8 pt7">
-                            <ion:user:firstname /> <ion:user:lastname />
+                            <ion:firstname /> <ion:lastname />
                         </div>
                     </div>
 

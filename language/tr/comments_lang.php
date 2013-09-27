@@ -19,6 +19,7 @@ $lang['module_comments_permission_save']            = 'Üzgünüz yorum kaydetme
 $lang['module_comments_permission_status']          = 'Üzgünüz yorum durumunu değiştirme yetkiniz yok...';
 
 //=> Başlık Çevirileri
+$lang['module_comments_title_comments_form']        = 'Yapılan Yorumlar';
 $lang['module_comments_title_settings']             = 'Ayarlar';
 $lang['module_comments_title_root']                 = 'Ana Dizin';
 $lang['module_comments_title_comments_for_selected_article']    = '%s - İçin Yapılan Yorumlar';
@@ -46,10 +47,7 @@ $lang['module_comments_button_back_to_article'] = 'Makaleye geri dön';
 $lang['module_comments_button_new_comments']    = 'Yeni Yorum Yaz';
 
 //=> Etiket Çevirileri
-$lang['module_comments_label_allow_comments']   = 'Yorumlara İzin Ver';
-$lang['module_comments_label_published']        = 'Yayınlanan';
-$lang['module_comments_label_pending']          = 'Onay Bekleyen';
-$lang['module_comments_label_total']            = 'Toplam';
+
 
 //=> Yardım Çevirileri
 $lang['module_comments_help_if_checked_comments_will_allowed']  = 'Eğer işaretli ise, bu makale için yorum yazılmasına izin verilecek.';
@@ -77,14 +75,19 @@ $lang['module_comments_label_ip']                   = 'IP';
 $lang['module_comments_label_status']               = 'Durum';
 $lang['module_comments_label_created']              = 'Oluşturulma';
 $lang['module_comments_label_updated']              = 'Güncelleme';
-$lang['module_comments_label_admin']                = 'Admin';
+$lang['module_comments_label_admin']                = 'Yönetici';
+$lang['module_comments_label_allow_comments']   = 'Yorumlara İzin Ver';
+$lang['module_comments_label_published']        = 'Yayınlanan';
+$lang['module_comments_label_pending']          = 'Onay Bekleyen';
+$lang['module_comments_label_total']            = 'Toplam';
+$lang['module_comments_label_total_comments']   = 'Toplam <span class="badge">%s</span> yapılan yorum bulunmaktadır.';
 
 //=> Form Translations
 $lang['module_comments_mail_admin_subject']                 = 'İnternet sitenize yeni bir yorum yazıldı.';
 $lang['module_comments_mail_user_subject']                  = 'Yorumunuz için teşekkür ederiz.';
 $lang['module_comments_form_thanks']                        = 'Teşekkürler, %s';
 $lang['module_comments_form_error_title']                   = 'Bir hata var !';
-$lang['module_comments_form_error_message']                 = 'Lütfen doldurulması zorunlu alanları doldurunuz.';
+$lang['module_comments_form_error_message']                 = 'Lütfen aşağıdaki hataları kontrol edin.';
 $lang['module_comments_form_success_title']                 = 'Yorumunuz başarıyla gönderildi !';
 $lang['module_comments_form_success_message']               = 'Yorumunuz için teşekkür ederiz, yorumunuz onaylandıktan sonra yayınlanacaktır !';
 //=> Form => Yönetici e-posta çevirileri

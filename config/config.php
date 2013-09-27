@@ -22,7 +22,7 @@ $config['module']['comments'] = array
         'frontend'  => array
         (
             'title'     => 'Client Side / Kullanıcı Tarafı',
-            'actions'   => 'create,delete,status'
+            'actions'   => 'view,manage,create,delete,status'
         )
     )
 );

@@ -402,24 +402,6 @@ class Comments extends Module_Admin
     // ------------------------------------------------------------------------
 
     /**
-     * Get Alert View
-     *
-     * @param bool $type types :: success,danger,warning,info
-     * @param bool $title
-     * @param bool $text
-     */
-    function _alert($type = FALSE, $title = FALSE, $text = FALSE)
-    {
-        $this->template['type'] = (($title != FALSE) ? $type : 'danger');
-        $this->template['title'] = (($title != FALSE) ? '<h4>' . $title . '</h4>' : '');
-        $this->template['text'] = (($text != FALSE) ? '<p>' . $text . '</p>' : '');
-
-        $this->output($this->controller_folder . 'alert');
-    }
-
-    // ------------------------------------------------------------------------
-
-    /**
      * Set an item online / offline depending on its current context and status
      *
      * @param $id_article_comment
@@ -542,6 +524,24 @@ class Comments extends Module_Admin
         }
 
         return $return;
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Get Alert View
+     *
+     * @param bool $type types :: success,danger,warning,info
+     * @param bool $title
+     * @param bool $text
+     */
+    function _alert($type = FALSE, $title = FALSE, $text = FALSE)
+    {
+        $this->template['type'] = (($title != FALSE) ? $type : 'danger');
+        $this->template['title'] = (($title != FALSE) ? '<h4>' . $title . '</h4>' : '');
+        $this->template['text'] = (($text != FALSE) ? '<p>' . $text . '</p>' : '');
+
+        $this->output($this->controller_folder . 'alert');
     }
 
     // ------------------------------------------------------------------------

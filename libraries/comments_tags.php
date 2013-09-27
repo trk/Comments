@@ -20,30 +20,22 @@ class Comments_Tags extends TagManager {
      */
     public static $tag_definitions = array
         (
-        "comments:comments"                         => "tag_comments",
-        'comments:comments:id_article_comment'      => 'tag_comments_simple_value',
-        'comments:comments:id_article'              => 'tag_comments_simple_value',
-        'comments:comments:author'                  => 'tag_comments_simple_value',
-        'comments:comments:email'                   => 'tag_comments_simple_value',
-        'comments:comments:site'                    => 'tag_comments_simple_value',
-        'comments:comments:content'                 => 'tag_comments_simple_value',
-        'comments:comments:ip'                      => 'tag_comments_simple_value',
-        'comments:comments:status'                  => 'tag_comments_simple_value',
-        'comments:comments:created'                 => 'tag_comments_simple_date',
-        'comments:comments:updated'                 => 'tag_comments_simple_date',
-        'comments:comments:admin'                   => 'tag_comments_simple_value',
-        "comments:count"                            => "tag_count",
-
-        // @TODO Rewrite theese methods
-        "comments:comment_save"                     => "tag_comment_save", // Save new comment
-        "comments:gravatar"                         => "tag_gravatar", // Display avatar, using gravatar site
-        "comments:comments_allowed"                 => "tag_comments_allowed", // Display nested content if comments allowed
-        "comments:comments_admin"                   => "tag_comments_admin", // Display admin options & save change
-        "comments:message"                          => "tag_message", 
-        "comments:success_message"                  => "tag_success_message", // Display success flash message
-        "comments:error_message"                    => "tag_error_message", // Display error flash message
-        "comments:comments_allowed"                 => "tag_comments_allowed",  // Display error flash message 
-        "comments:author_site"                      => 'tag_author_site'
+        "comments:list"                     => "tag_list",
+        'comments:list:id_article_comment'  => 'tag_comments_simple_value',
+        'comments:list:id_article'          => 'tag_comments_simple_value',
+        'comments:list:author'              => 'tag_comments_simple_value',
+        'comments:list:email'               => 'tag_comments_simple_value',
+        'comments:list:site'                => 'tag_comments_simple_value',
+        'comments:list:content'             => 'tag_comments_simple_value',
+        'comments:list:ip'                  => 'tag_comments_simple_value',
+        'comments:list:status'              => 'tag_comments_simple_value',
+        'comments:list:created'             => 'tag_comments_simple_date',
+        'comments:list:updated'             => 'tag_comments_simple_date',
+        'comments:list:admin'               => 'tag_comments_simple_value',
+        "comments:count"                    => "tag_count",
+        "comments:gravatar"                 => "tag_gravatar",
+        "comments:can"                      => "tag_can",
+        "comments:logged"                   => "tag_logged"
     );
 
     // ------------------------------------------------------------------------
@@ -81,7 +73,7 @@ class Comments_Tags extends TagManager {
      *			</ion:comments>
      *
      */
-    public static function tag_comments(FTL_Binding $tag)
+    public static function tag_list(FTL_Binding $tag)
     {
         // Returned string
         $str = '';
@@ -90,6 +82,9 @@ class Comments_Tags extends TagManager {
         self::load_model('comments_model', '');
 
         $article = $tag->get('article');
+        $order_by = $tag->getAttribute('order_by');
+        if(! empty($order_by))
+            $where['order_by'] = $order_by;
 
         // Prepare where
         $where['id_article']    = $article['id_article'];
@@ -104,6 +99,7 @@ class Comments_Tags extends TagManager {
 
         // Comments array
         $article_comments = self::$ci->comments_model->get_list($where);
+        $tag->set('article_comments', $article_comments);
 
         foreach($article_comments as $article_comment)
         {
@@ -162,7 +158,8 @@ class Comments_Tags extends TagManager {
     public static function tag_count(FTL_Binding $tag)
     {
         // Returns the field value or if NULL set value "published"
-        $field = $tag->getAttribute('field', 'published');
+        $field  = $tag->getAttribute('field', 'published');
+        $lang   = $tag->getAttribute('lang');
 
         // Model load
         self::load_model('comments_model', '');
@@ -176,6 +173,9 @@ class Comments_Tags extends TagManager {
         {
             // Get the count result
             $count = $count_article_comments[$field];
+
+            if(! empty($lang))
+                return lang($lang, $count);
 
             return $count;
         }
@@ -191,22 +191,89 @@ class Comments_Tags extends TagManager {
         // return '';
     }
 
-    /*     * **********************************************************************
-     * Display comment's author's gravatar
-     *
-     * Attributes :
-     * default : 	can be "mm" (people shadow), "identicon" (default), 
-      "monsterid", "wavatar", "retro"
-     * 				or link to a public accessible default image 
-     * TODO :
-     * - Allow to define the size
-     */
+    // ------------------------------------------------------------------------
 
+    /**
+     * If author have Gravatar
+     * //=> Attributes :
+     *      default : 	can be "mm" (people shadow), "identicon" (default)
+     *      "monsterid", "wavatar", "retro" or link to a public accessible default image
+     *
+     * @TODO Allow to define the size
+     *
+     * @param FTL_Binding $tag
+     * @return string
+     */
     public static function tag_gravatar(FTL_Binding $tag) {
-        // Using "identicon" if no other default avatar is specified 
+
+        // Using "identicon" if no other default avatar is specified
         $default_avatar = isset($tag->attr['default']) ? $tag->attr['default'] : 'identicon';
 
         $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($tag->locals->comment["email"]))) . "?s=80&d=" . $default_avatar;
+
         return $grav_url;
+
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Check user permissions
+     *
+     * @param FTL_Binding $tag
+     *
+     * @return string
+     */
+    public static function tag_can(FTL_Binding $tag)
+    {
+//        $tag->setAsProcessTag();
+
+        $is     = $tag->getAttribute('is', TRUE);
+        $role   = $tag->getAttribute('role');
+
+        // If user is visitor allow visitor to see comments and allow visitor write a comment
+//        if(! empty($role) && !User()->logged_in())
+//        {
+//            if($role == 'view' || $role == 'create') { return $tag->expand(); }
+//            else { return ''; }
+//        }
+
+        log_message('error', 'USER //=> ' . User()->logged_in());
+
+        if (! empty($role) && Authority::can($role, 'module/comments/admin') == $is)
+        {
+            return $tag->expand();
+        }
+        else
+        {
+            return '';
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Expands the children if the user is logged in.
+     *
+     * @param FTL_Binding $tag
+     *
+     * @return string
+     */
+    public static function tag_logged(FTL_Binding $tag)
+    {
+//        $tag->setAsProcessTag();
+
+        $is = $tag->getAttribute('is');
+
+        if (is_null($is)) $is = TRUE;
+
+        if (User()->logged_in() == $is)
+        {
+            return $tag->expand();
+        }
+        else
+        {
+            return '';
+        }
     }
 }
