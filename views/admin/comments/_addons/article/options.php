@@ -18,7 +18,7 @@
                     <label title="<?php echo lang('module_comments_help_if_checked_comments_will_auto_valide'); ?>" for="comment_autovalid"><?php echo lang('module_comments_label_auto_validate_comments'); ?></label>
                 </dt>
                 <dd>
-                    <input id="comment_autovalid" name="comment_autovalid" type="checkbox" class="inputcheckbox" <?php if ($article['comment_allow'] == 1):?> checked="checked" <?php endif;?> value="1">
+                    <input id="comment_autovalid" name="comment_autovalid" type="checkbox" class="inputcheckbox" <?php if ($article['comment_autovalid'] == 1):?> checked="checked" <?php endif;?> value="1">
                 </dd>
             </dl>
             <dl class="small compact">
@@ -68,7 +68,7 @@
                     <label></label>
                 </dt>
                 <dd>
-                    <a id="btnManageComments" class="button light plus" data-id="<?php echo $article['id_article']; ?>" data-url="comments/article_comments/" title="<?php echo lang('module_comments_help_click_here_for_manage_comments'); ?>">
+                    <a id="btnManageComments" class="button light plus" title="<?php echo lang('module_comments_help_click_here_for_manage_comments'); ?>">
                         <i class="icon arrow-right"></i> <?php echo lang('module_comments_title_manage_comments'); ?>
                     </a>
                 </dd>
@@ -80,26 +80,28 @@
 
     <script type="text/javascript">
 
+        var id_article = <?php echo $article['id_article']; ?>;
+
         /**
          * XHR update : Comment Allowed
          */
         $('comment_allow').addEvent('click', function(e)
         {
             var value = (this.checked) ? '1' : '0';
-            ION.JSON('article/update_field', {'field': 'comment_allow', 'value': value, 'id_article': $('id_article').value});
+            ION.JSON('article/update_field', {'field': 'comment_allow', 'value': value, 'id_article': id_article });
         });
 
         $('comment_autovalid').addEvent('click', function(e)
         {
             var value = (this.checked) ? '1' : '0';
-            ION.JSON('article/update_field', {'field': 'comment_autovalid', 'value': value, 'id_article': $('id_article').value});
+            ION.JSON('article/update_field', {'field': 'comment_autovalid', 'value': value, 'id_article': id_article });
         });
 
         $('comment_expire_save').addEvent('click', function(e)
         {
 //            e.stop();
             var value = $('comment_expire').value;
-            ION.JSON('article/update_field', {'field': 'comment_expire', 'value': value, type: 'date', 'id_article': $('id_article').value});
+            ION.JSON('article/update_field', {'field': 'comment_expire', 'value': value, type: 'date', 'id_article': id_article });
         });
 
         /**
@@ -110,7 +112,7 @@
             var options = {
                 element: $('mainPanel'),
                 title: '<?php echo lang('module_comments_title_comment_management'); ?>',
-                url : admin_url + 'module/comments/' + $(this).getProperty('data-url') + $(this).getProperty('data-id') + '/' + $('rel').value
+                url : admin_url + 'module/comments/comments/article_comments/' + id_article + '/' + $('rel').value
             };
 
             ION.contentUpdate(options);

@@ -155,6 +155,36 @@ class Comments_model extends Base_model
 
         return $ip;
     }
+
+    /**
+     * Check article comment is expired or not
+     *
+     * FALSE    : Expired
+     * TRUE     : Not expire yet
+     *
+     * @param $article
+     * @return bool
+     */
+    function _check_expire($article)
+    {
+        $return = FALSE;
+
+        $now    = date("YmdHis");
+        $expire = $article['comment_expire'];
+        if($expire != '')
+        {
+            $expire = str_replace('-', '', $expire);
+            $expire = str_replace(' ', '', $expire);
+            $expire = str_replace(':', '', $expire);
+        }
+
+        if($expire == '' || $expire == '00000000000000' || $now < $expire)
+            $return = TRUE;
+        if($expire != '' && $expire != '00000000000000' && $now > $expire)
+            $return = FALSE;
+
+        return $return;
+    }
 }
 
 /* End of file comments_model.php */

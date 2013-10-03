@@ -17,6 +17,8 @@ $lang['module_comments_permission_delete']          = 'Sorry, you don\'t have pe
 $lang['module_comments_permission_view']            = 'Sorry, you don\'t have permission for view comment...';
 $lang['module_comments_permission_save']            = 'Sorry, you don\'t have permission for save comment...';
 $lang['module_comments_permission_status']          = 'Sorry, you don\'t have permission for change status comment...';
+$lang['module_comments_comments_not_allowed']       = '<strong>Warning!</strong> Sorry, comments now allowed for this article...';
+$lang['module_comments_comments_expired']           = '<strong>Warning!</strong> Sorry, comments closed for this article...';
 
 //=> Title Translations
 $lang['module_comments_title_comments_form']        = 'Comments';

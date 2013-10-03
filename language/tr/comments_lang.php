@@ -17,6 +17,8 @@ $lang['module_comments_permission_delete']          = 'Üzgünüz yorum silme ye
 $lang['module_comments_permission_view']            = 'Üzgünüz yorum görüntüleme yetkiniz yok...';
 $lang['module_comments_permission_save']            = 'Üzgünüz yorum kaydetme yetkiniz yok...';
 $lang['module_comments_permission_status']          = 'Üzgünüz yorum durumunu değiştirme yetkiniz yok...';
+$lang['module_comments_comments_not_allowed']       = '<strong>Uyarı!</strong> Üzgünüz, bu makale için yorum yazılmaya izin verilmiyor...';
+$lang['module_comments_comments_expired']           = '<strong>Uyarı!</strong> Üzgünüz, bu makale yorum yazılmaya kapatıldı...';
 
 //=> Başlık Çevirileri
 $lang['module_comments_title_comments_form']        = 'Yapılan Yorumlar';

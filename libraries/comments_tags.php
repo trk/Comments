@@ -20,6 +20,7 @@ class Comments_Tags extends TagManager {
      */
     public static $tag_definitions = array
         (
+        "comments:view"                     => "tag_view",
         "comments:list"                     => "tag_list",
         'comments:list:id_article_comment'  => 'tag_comments_simple_value',
         'comments:list:id_article'          => 'tag_comments_simple_value',
@@ -34,9 +35,9 @@ class Comments_Tags extends TagManager {
         'comments:list:admin'               => 'tag_comments_simple_value',
         "comments:count"                    => "tag_count",
         "comments:gravatar"                 => "tag_gravatar",
-        "comments:is_allowed"               => "tag_is_allowed",
+//        "comments:is_allowed"               => "tag_is_allowed",
         "comments:can"                      => "tag_can",
-        "comments:logged"                   => "tag_logged"
+//        "comments:logged"                   => "tag_logged"
     );
 
     // ------------------------------------------------------------------------
@@ -57,6 +58,91 @@ class Comments_Tags extends TagManager {
     {
         $str = $tag->expand();
         return $str;
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Loads a partial view from a FTL tag
+     * Callback function linked to the tag <ion:partial />
+     *
+     * @param	FTL_Binding
+     * @return 	string
+     *
+     */
+    /**
+    -     * Loads the main Front module's view
+    -     * Because the parent tag (index) is expanded, the result of this method will be displayed
+    -     *
+    -     * @param FTL_Binding $tag
+    -     *
+    -     * @return mixed
+    -     */
+    public static function tag_view(FTL_Binding $tag)
+    {
+        $file       = $tag->getAttribute('file');
+        $allowed    = $tag->getAttribute('allowed', TRUE);
+        $show       = $tag->getAttribute('show', FALSE);
+        $error      = $tag->getAttribute('error', FALSE);
+
+        $article = $tag->get('article');
+
+        if($allowed)
+        {
+
+            // Model load
+            self::load_model('comments_model', '');
+
+            if($article['comment_allow'] == 0 || !self::$ci->comments_model->_check_expire($article))
+            {
+                if($show)
+                {
+                    return self::_view($tag, $file);
+                }
+                if($error)
+                {
+                    if(!self::$ci->comments_model->_check_expire($article))
+                        $alert_text = lang('module_comments_comments_expired');
+                    else
+                        $alert_text = lang('module_comments_comments_not_allowed');
+
+                    $error_file = Theme::load('article_comment_error');
+                    return $tag->parse_as_nested($error_file, array('alert_text' => $alert_text));
+                }
+                return '';
+            }
+            else
+            {
+                return self::_view($tag, $file);
+            }
+        }
+    }
+
+    public static function _view(FTL_Binding $tag, $file)
+    {
+        if (!is_null($file) && @file_exists(MODPATH.'Comments/views/' . $file . EXT))
+        {
+            if( $tag->getAttribute('php') == TRUE)
+            {
+                $data = $tag->getAttribute('data', array());
+                return self::$ci->load->view($file, $data, TRUE);
+            }
+            else
+            {
+                $load_file = Theme::load($file);
+                return $tag->parse_as_nested($load_file);
+            }
+        }
+        if(!is_null($file))
+            return self::show_tag_error(
+                $tag,
+                'View file <b>"'. $file.EXT .'"</b> could not found.'
+            );
+        else
+            return self::show_tag_error(
+                $tag,
+                'Please specify <b>"the file name"</b>, which want to use.'
+            );
     }
 
     // ------------------------------------------------------------------------
@@ -218,22 +304,29 @@ class Comments_Tags extends TagManager {
 
     // ------------------------------------------------------------------------
 
-    /**
-     * Check comment is allowed & Comment Expire
-     *
-     * @param FTL_Binding $tag
-     *
-     * @return string
-     */
-    public static function tag_is_allowed(FTL_Binding $tag)
-    {
-        $article = $tag->get('article');
-
-        if ($article['comment_allow'] == 0 || $article['comment_expire'] > date('Y-m-d H:i:s') || $article['comment_expire'] == date('Y-m-d H:i:s'))
-            return '';
-        else
-            return $tag->expand();
-    }
+//    /**
+//     * Check comment is allowed & Comment Expire
+//     *
+//     * @param FTL_Binding $tag
+//     *
+//     * @return string
+//     */
+//    public static function tag_is_allowed(FTL_Binding $tag)
+//    {
+//        $article = $tag->get('article');
+//
+//        $now    = date("Y-m-d H:i:s");
+//        $expire = $article['comment_expire'];
+////        $now    = date("YmdHis");
+////        $expire = str_replace('-', '', $article['comment_expire']);
+////        $expire = str_replace(' ', '', $expire);
+////        $expire = str_replace(':', '', $expire);
+//
+//        if ($article['comment_allow'] == 0 || ($expire != '' && $expire != '0000-00-00 00:00:00' && $expire < $now))
+//            return '';
+//        else
+//            return $tag->expand();
+//    }
 
     // ------------------------------------------------------------------------
 
@@ -246,7 +339,6 @@ class Comments_Tags extends TagManager {
      */
     public static function tag_can(FTL_Binding $tag)
     {
-//        $tag->setAsProcessTag();
 
         $is     = $tag->getAttribute('is', TRUE);
         $role   = $tag->getAttribute('role');
@@ -272,28 +364,27 @@ class Comments_Tags extends TagManager {
 
     // ------------------------------------------------------------------------
 
-    /**
-     * Expands the children if the user is logged in.
-     *
-     * @param FTL_Binding $tag
-     *
-     * @return string
-     */
-    public static function tag_logged(FTL_Binding $tag)
-    {
-//        $tag->setAsProcessTag();
-
-        $is = $tag->getAttribute('is');
-
-        if (is_null($is)) $is = TRUE;
-
-        if (User()->logged_in() == $is)
-        {
-            return $tag->expand();
-        }
-        else
-        {
-            return '';
-        }
-    }
+//    /**
+//     * Expands the children if the user is logged in.
+//     *
+//     * @param FTL_Binding $tag
+//     *
+//     * @return string
+//     */
+//    public static function tag_logged(FTL_Binding $tag)
+//    {
+//
+//        $is = $tag->getAttribute('is');
+//
+//        if (is_null($is)) $is = TRUE;
+//
+//        if (User()->logged_in() == $is)
+//        {
+//            return $tag->expand();
+//        }
+//        else
+//        {
+//            return '';
+//        }
+//    }
 }
