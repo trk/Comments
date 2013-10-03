@@ -1,27 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * Ionize, creative CMS
- *
- * @package		Ionize
- * @author		 
- * @license		http://ionizecms.com/doc-license
- * @link		http://ionizecms.ru
- * @since		Version 0.0.1
- */
-
-// ------------------------------------------------------------------------
 
 /**
- * #module_name Module Controller
+ * Comments MODULE Front CONTROLLER
  *
- * @author		 
- *
- * @usage		Have a look at the readme.txt file
- *
- *
+ * @author  : İskender TOTOĞLU | Altı ve Bir Bilişim Teknolojileri | http://www.altivebir.com.tr
  */
-
-
 class Comments extends My_Module 
 {
 
@@ -40,21 +23,13 @@ class Comments extends My_Module
 
 	// ------------------------------------------------------------------------
 
-	/**
-	 * Just do nothing.
-	 * 
-	 *
-	 */
-	function index()
+    /**
+     * Index of Controller
+     *
+     * Show Module Title
+     */
+    function index()
 	{
-		//echo "выводим на index в контролллере";
-		$this->template['title'] = 'comments module title'; // var in views
-        $this->output('main_comments'); //views
+		echo lang('module_comments_title');
 	}
-
-	
-	// ------------------------------------------------------------------------
-
-
-	
 }

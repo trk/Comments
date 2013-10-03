@@ -17,8 +17,8 @@ $lang['module_comments_permission_delete']          = 'Sorry, you don\'t have pe
 $lang['module_comments_permission_view']            = 'Sorry, you don\'t have permission for view comment...';
 $lang['module_comments_permission_save']            = 'Sorry, you don\'t have permission for save comment...';
 $lang['module_comments_permission_status']          = 'Sorry, you don\'t have permission for change status comment...';
-$lang['module_comments_comments_not_allowed']       = '<strong>Warning!</strong> Sorry, comments now allowed for this article...';
-$lang['module_comments_comments_expired']           = '<strong>Warning!</strong> Sorry, comments closed for this article...';
+$lang['module_comments_comments_not_allowed']       = '<strong>Warning!</strong> Sorry, comments not allowed for this article...';
+$lang['module_comments_comments_expired']           = '<strong>Warning!</strong> Sorry, this article closed for comments...';
 
 //=> Title Translations
 $lang['module_comments_title_comments_form']        = 'Comments';
@@ -52,7 +52,7 @@ $lang['module_comments_button_save_date']       = 'Save Date';
 //=> Help Translations
 $lang['module_comments_help_if_checked_comments_will_allowed'] = 'If checked, you will allow comments for this article.';
 $lang['module_comments_help_if_checked_comments_will_auto_valide']  = 'If checked, visitor comments will auto validate.';
-$lang['module_comments_help_comment_expire']                        = 'If you ser a date, after this date comment write won't allowed.';
+$lang['module_comments_help_comment_expire']                        = 'If you ser a date, after this date comment write won\'t allowed.';
 $lang['module_comments_help_click_here_for_manage_comments']    = 'Click here for manage comments.';
 $lang['module_comments_help_click_here_for_go_back_to_article'] = 'Click here for go back to article.';
 
