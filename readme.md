@@ -28,6 +28,7 @@ For manage comments for article you can use admin panel, You can see comment man
             <ion:content />
             <ion:ip />
             <ion:status />
+			<ion:time_ago />
             <ion:created />
             <ion:updated />
             <ion:admin />
