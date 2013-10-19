@@ -85,6 +85,18 @@ $lang['module_comments_label_published']        = 'Yayınlanan';
 $lang['module_comments_label_pending']          = 'Onay Bekleyen';
 $lang['module_comments_label_total']            = 'Toplam';
 $lang['module_comments_label_total_comments']   = 'Toplam <span class="badge">%s</span> yapılan yorum bulunmaktadır.';
+$lang['module_comments_label_no_date_provided'] = 'Tarih belirtilmedi.';
+$lang['module_comments_label_time_ago']         = 'Önce';
+$lang['module_comments_label_from_now']         = 'Şu andan itiraberen';
+$lang['module_comments_label_time_ago_plural']  = ' ';
+$lang['module_comments_label_just_now']         = 'Şimdi';
+$lang['module_comments_label_second']           = 'Saniye';
+$lang['module_comments_label_minute']           = 'Dakika';
+$lang['module_comments_label_hour']             = 'Saat';
+$lang['module_comments_label_day']              = 'Gün';
+$lang['module_comments_label_week']             = 'Hafta';
+$lang['module_comments_label_month']            = 'Ay';
+$lang['module_comments_label_year']             = 'Yıl';
 
 //=> Form Translations
 $lang['module_comments_mail_admin_subject']                 = 'İnternet sitenize yeni bir yorum yazıldı.';

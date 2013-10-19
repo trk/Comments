@@ -7,6 +7,13 @@
  */
 class Comments_Tags extends TagManager {
 
+    protected static $SEC_IN_MINUTE   = 60; // How many seconds are in a minute
+    protected static $SEC_IN_HOUR     = 3600; // How many seconds are in an hour
+    protected static $SEC_IN_DAY      = 86400; // How many seconds are in a day
+    protected static $SEC_IN_WEEK     = 604800; // How many seconds are in a week
+    protected static $SEC_IN_MONTH    = 2630880; // How many seconds are in a month
+    protected static $SEC_IN_YEAR     = 31556926; // How many seconds are in a year
+
     /**
      * Tags declaration
      * To be available, each tag must be declared in this static array.
@@ -20,25 +27,24 @@ class Comments_Tags extends TagManager {
      */
     public static $tag_definitions = array
         (
-        "comments:view"                     => "tag_view",
-        "comments:list"                     => "tag_list",
-        'comments:list:id_article_comment'  => 'tag_comments_simple_value',
-        'comments:list:id_article'          => 'tag_comments_simple_value',
-        'comments:list:author'              => 'tag_comments_simple_value',
-        'comments:list:email'               => 'tag_comments_simple_value',
-        'comments:list:site'                => 'tag_comments_simple_value',
-        'comments:list:content'             => 'tag_comments_simple_value',
-        'comments:list:ip'                  => 'tag_comments_simple_value',
-        'comments:list:status'              => 'tag_comments_simple_value',
-        'comments:list:created'             => 'tag_comments_simple_date',
-        'comments:list:updated'             => 'tag_comments_simple_date',
-        'comments:list:admin'               => 'tag_comments_simple_value',
-        "comments:count"                    => "tag_count",
-        "comments:gravatar"                 => "tag_gravatar",
-//        "comments:is_allowed"               => "tag_is_allowed",
-        "comments:can"                      => "tag_can",
-//        "comments:logged"                   => "tag_logged"
-    );
+            'comments:view'                     => 'tag_view',
+            'comments:list'                     => 'tag_list',
+            'comments:list:id_article_comment'  => 'tag_comments_simple_value',
+            'comments:list:id_article'          => 'tag_comments_simple_value',
+            'comments:list:author'              => 'tag_comments_simple_value',
+            'comments:list:email'               => 'tag_comments_simple_value',
+            'comments:list:site'                => 'tag_comments_simple_value',
+            'comments:list:content'             => 'tag_comments_simple_value',
+            'comments:list:ip'                  => 'tag_comments_simple_value',
+            'comments:list:status'              => 'tag_comments_simple_value',
+            'comments:list:created'             => 'tag_comments_simple_date',
+            'comments:list:updated'             => 'tag_comments_simple_date',
+            'comments:list:admin'               => 'tag_comments_simple_value',
+            'comments:list:time_ago'            => 'tag_time_ago',
+            "comments:count"                    => "tag_count",
+            "comments:gravatar"                 => "tag_gravatar",
+            "comments:can"                      => "tag_can",
+        );
 
     // ------------------------------------------------------------------------
 
@@ -296,37 +302,11 @@ class Comments_Tags extends TagManager {
         // Using "identicon" if no other default avatar is specified
         $default_avatar = isset($tag->attr['default']) ? $tag->attr['default'] : 'identicon';
 
-        $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($tag->locals->comment["email"]))) . "?s=80&d=" . $default_avatar;
+        $grav_url = "http://www.gravatar.com/avatar/" . md5(strtolower(trim($tag->locals->article_comment["email"]))) . "?s=80&d=" . $default_avatar;
 
         return $grav_url;
 
     }
-
-    // ------------------------------------------------------------------------
-
-//    /**
-//     * Check comment is allowed & Comment Expire
-//     *
-//     * @param FTL_Binding $tag
-//     *
-//     * @return string
-//     */
-//    public static function tag_is_allowed(FTL_Binding $tag)
-//    {
-//        $article = $tag->get('article');
-//
-//        $now    = date("Y-m-d H:i:s");
-//        $expire = $article['comment_expire'];
-////        $now    = date("YmdHis");
-////        $expire = str_replace('-', '', $article['comment_expire']);
-////        $expire = str_replace(' ', '', $expire);
-////        $expire = str_replace(':', '', $expire);
-//
-//        if ($article['comment_allow'] == 0 || ($expire != '' && $expire != '0000-00-00 00:00:00' && $expire < $now))
-//            return '';
-//        else
-//            return $tag->expand();
-//    }
 
     // ------------------------------------------------------------------------
 
@@ -364,27 +344,93 @@ class Comments_Tags extends TagManager {
 
     // ------------------------------------------------------------------------
 
-//    /**
-//     * Expands the children if the user is logged in.
-//     *
-//     * @param FTL_Binding $tag
-//     *
-//     * @return string
-//     */
-//    public static function tag_logged(FTL_Binding $tag)
-//    {
-//
-//        $is = $tag->getAttribute('is');
-//
-//        if (is_null($is)) $is = TRUE;
-//
-//        if (User()->logged_in() == $is)
-//        {
-//            return $tag->expand();
-//        }
-//        else
-//        {
-//            return '';
-//        }
-//    }
+    /**
+     * <ion:time_ago />
+     *
+     * @param FTL_Binding $tag
+     * @return string
+     */
+    public static function tag_time_ago(FTL_Binding $tag)
+    {
+        $comment = $tag->get('article_comment');
+
+        return self::time_passed($comment['created']);
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     *
+     * This function calculates how long ago a certain
+     * date passed in was.
+     *
+     */
+    function time_passed($date) {
+
+        /**
+         * This code block checks to see what type of date is
+         * passed in and then obtains the difference in
+         * seconds.
+         */
+
+        if (empty($date)) {
+            return(lang('module_comments_label_no_date_provided'));
+        }
+
+        if ($date instanceof DateTime) {
+            $c = new DateTime();
+            $cTime = $c->getTimestamp();
+            $dTime = $date->getTimestamp();
+            $diff = $cTime-$dTime;
+        } elseif (is_array($date) && isset($date["mon"])) {
+            $date = $date[0];
+            $c = time();
+            $diff = $c-$date;
+        } elseif (is_string($date)) {
+            $date = strtotime($date);
+            $c = time();
+            $diff = $c-$date;
+        } else {
+            $c = time();
+            $diff = $c-$date;
+        }
+
+        $agostate = ($diff>=0) ? lang('module_comments_label_time_ago') : lang('module_comments_label_from_now');
+
+        $diff = abs($diff);
+
+        /**
+         * This section of code converts the seconds in
+         * single units based on whether it is a year, month,
+         * week, day, hour, minute or second
+         */
+
+        if ($diff>=self::$SEC_IN_YEAR) {
+            $diff = floor($diff / self::$SEC_IN_YEAR);
+            $suffix = lang('module_comments_label_year');
+        } elseif ($diff>=self::$SEC_IN_MONTH) {
+            $diff = floor($diff / self::$SEC_IN_MONTH);
+            $suffix = lang('module_comments_label_month');
+        } elseif ($diff>=self::$SEC_IN_WEEK) {
+            $diff = floor($diff / self::$SEC_IN_WEEK);
+            $suffix = lang('module_comments_label_week');
+        } elseif ($diff>=self::$SEC_IN_DAY) {
+            $diff = floor($diff / self::$SEC_IN_DAY);
+            $suffix = lang('module_comments_label_day');
+        } elseif ($diff>=self::$SEC_IN_HOUR) {
+            $diff = floor($diff / self::$SEC_IN_HOUR);
+            $suffix = lang('module_comments_label_hour');
+        } elseif ($diff>=self::$SEC_IN_MINUTE) {
+            $diff = floor($diff / self::$SEC_IN_MINUTE);
+            $suffix = lang('module_comments_label_minute');
+        } elseif ($diff>0) {
+            $suffix = lang('module_comments_label_second');
+        } else {
+            return(lang('module_comments_label_just_now'));
+        }
+
+        $return = (($diff==1) ? "{$diff} {$suffix} {$agostate}" : "{$diff} {$suffix}" . lang('module_comments_label_time_ago_plural') . " {$agostate}");
+
+        return $return;
+    }
 }

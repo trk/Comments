@@ -85,6 +85,19 @@ $lang['module_comments_label_published']            = 'Published';
 $lang['module_comments_label_pending']              = 'Pending';
 $lang['module_comments_label_total']                = 'Total';
 $lang['module_comments_label_total_comments']   = 'Total <span class="badge">%s</span> comments.';
+$lang['module_comments_label_no_date_provided'] = 'No date provided.';
+$lang['module_comments_label_time_ago']         = 'Ago';
+$lang['module_comments_label_from_now']         = 'From now';
+$lang['module_comments_label_time_ago_plural']  = 's';
+$lang['module_comments_label_just_now']         = 'Now';
+$lang['module_comments_label_second']           = 'Second';
+$lang['module_comments_label_minute']           = 'Minute';
+$lang['module_comments_label_hour']             = 'Hour';
+$lang['module_comments_label_day']              = 'Day';
+$lang['module_comments_label_week']             = 'Week';
+$lang['module_comments_label_month']            = 'Month';
+$lang['module_comments_label_year']             = 'Year';
+
 //=> Form Translations
 $lang['module_comments_mail_admin_subject']                 = 'Someone writed a comment to your website.';
 $lang['module_comments_mail_user_subject']                  = 'Thank you, for your comment.';
