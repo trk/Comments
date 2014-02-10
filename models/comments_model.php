@@ -59,7 +59,7 @@ class Comments_model extends Base_model
             $data['updated'] = date('Y-m-d H:i:s');
 
         // Dates
-        $data = $this->_set_dates($data);
+        // $data = $this->_set_dates($data);
 
         // Article saving
         return parent::save($data);

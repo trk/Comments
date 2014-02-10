@@ -8,6 +8,8 @@
 $lang['module_comments_title']                  = 'Comment Module';
 $lang['module_comments_about']                  = 'Manage your comments';
 
+$lang['module_comments_error_writing_config_file'] 	= 'modules/Comments/config/config.php could not be written !';
+
 //=> Permission Translations
 $lang['module_comments_permission_warning']         = 'WARNING !';
 $lang['module_comments_permission_access']          = 'You don\'t have permission for use this module...';

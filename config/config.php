@@ -6,7 +6,7 @@ $config['module']['comments'] = array
     'name'          => "Comments",
     'description'   => "Comments Module help you to manage comments for articles.<br/><b>Version : </b>0.9.1<br/><b>Author : </b>İskender TOTOĞLU<br/><b>Company : </b>ALTI VE BIR IT.<br/><b>Website : </b>http://www.altivebir.com.tr",
     'author'        => "İskender TOTOĞLU | ALTI VE BIR IT.",
-    'version'       => "0.9.1",
+    'version'       => "0.9.2",
     'uri'           => 'comments',
     'has_admin'     => TRUE,
     'has_frontend'  => TRUE,
@@ -24,7 +24,9 @@ $config['module']['comments'] = array
             'title'     => 'Client Side / Kullanıcı Tarafı',
             'actions'   => 'view,manage,create,delete,status'
         )
-    )
+    ),
+    // IDs of pages used for Comments
+    'module_comments_pages' => ''
 );
 
 return $config['module']['comments'];

@@ -573,15 +573,19 @@ class Comments extends Module_Admin
      */
     public function _addons($object = array())
     {
+        $moduleConfig = Modules()->get_module_config('Comments');
+
+        $pages_ids = array();
+
+        if($moduleConfig['module_comments_pages'] !== '')
+            $pages_ids = explode(',', $moduleConfig['module_comments_pages']);
 
         $CI =& get_instance();
-//        $uri = $CI->uri->uri_string();
+
+        if( ! empty($object['id_article']) && ! empty($object['id_page']) && in_array($object['id_page'], $pages_ids) ) {
 
         // Send the article|page to the view
         $data['article'] = $object;
-
-        if(empty($data['article']['id_article']))
-            return;
 
         // Load comments model
         $CI->load->model('comments_model', '', TRUE);
@@ -596,6 +600,10 @@ class Comments extends Module_Admin
             'admin/comments/_addons/article/options', 	// View to display in the placeholder
             $data								// Data send to the view
         );
+
+        }
+        else
+            return;
     }
 
 }

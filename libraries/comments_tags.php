@@ -374,7 +374,7 @@ class Comments_Tags extends TagManager {
          */
 
         if (empty($date)) {
-            return(lang('module_comments_label_no_date_provided'));
+            return lang('module_comments_label_no_date_provided');
         }
 
         if ($date instanceof DateTime) {

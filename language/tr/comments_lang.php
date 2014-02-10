@@ -8,6 +8,8 @@
 $lang['module_comments_title']                      = 'Yorum Modülü';
 $lang['module_comments_about']                      = 'İnternet sayfasına yazılan yorumları yönetin';
 
+$lang['module_comments_error_writing_config_file'] 	= 'modules/Comments/config/config.php dosyasına yazılamıyor !';
+
 //=> İzin Çevirileri
 $lang['module_comments_permission_warning']         = 'UYARI !';
 $lang['module_comments_permission_access']          = 'Bu modülü kullanma yetkiniz yok...';
